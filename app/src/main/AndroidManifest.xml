@@ -5,6 +5,7 @@
     <uses-permission android:name="android.permission.READ_PHONE_STATE" />
     <uses-permission android:name="android.permission.CALL_PHONE" />
     <uses-permission android:name="android.permission.PROCESS_OUTGOING_CALLS" />
+    <uses-permission android:name="android.permission.INTERNET"></uses-permission>
 
     <application
         android:allowBackup="true"
@@ -20,8 +21,10 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".GWPermissionAty"></activity>
-        <activity android:name=".QWGradleAty"></activity>
+        <activity android:name=".GWPermissionAty" />
+        <activity android:name=".QWGradleAty" />
+        <activity android:name=".QWRetrofitAty" />
+        <activity android:name=".QWRxjavaAty"></activity>
     </application>
 
 </manifest>

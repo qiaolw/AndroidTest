@@ -10,5 +10,6 @@
         <item>MVP模式</item>
         <item>dagger2</item>
         <item>rxjava</item>
+        <item>Retrofit2</item>
     </array>
 </resources>

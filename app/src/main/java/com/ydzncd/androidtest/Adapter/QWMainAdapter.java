@@ -13,6 +13,8 @@ import android.widget.TextView;
 import com.ydzncd.androidtest.GWPermissionAty;
 import com.ydzncd.androidtest.MainActivity;
 import com.ydzncd.androidtest.QWGradleAty;
+import com.ydzncd.androidtest.QWRetrofitAty;
+import com.ydzncd.androidtest.QWRxjavaAty;
 import com.ydzncd.androidtest.R;
 
 import butterknife.BindView;
@@ -63,6 +65,12 @@ public class QWMainAdapter extends RecyclerView.Adapter<QWMainAdapter.NormalText
             }
             else if (position == 2){
                 mContext.startActivity(new Intent(mContext, QWGradleAty.class));
+            }
+            else if (position == 5){
+                mContext.startActivity(new Intent(mContext, QWRxjavaAty.class));
+            }
+            else{
+                mContext.startActivity(new Intent(mContext, QWRetrofitAty.class));
             }
         }
     }

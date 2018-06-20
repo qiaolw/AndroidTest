@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".QWRxjavaAty">
+
+    <Button
+        android:id="@+id/bt_rxjava_test"
+        android:text="Rxjava Test"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+    <Button
+        android:id="@+id/bt_rxjava_map"
+        android:text="Rxjava map()"
+        app:layout_constraintTop_toBottomOf="@+id/bt_rxjava_test"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+    <Button
+        android:id="@+id/bt_rxjava_zip"
+        android:text="Rxjava zip()"
+        android:layout_width="match_parent"
+        app:layout_constraintTop_toBottomOf="@+id/bt_rxjava_map"
+        android:layout_height="wrap_content" />
+    <Button
+        android:id="@+id/bt_rxjava_concat"
+        android:text="Rxjava concat()"
+        app:layout_constraintTop_toBottomOf="@+id/bt_rxjava_zip"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+
+    <Button
+        android:id="@+id/bt_rxjava_flatMap"
+        android:text="Rxjava flatMap()"
+        app:layout_constraintTop_toBottomOf="@+id/bt_rxjava_concat"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+
+    <Button
+        android:id="@+id/bt_rxjava_concatMap"
+        android:text="Rxjava concatMap()"
+        app:layout_constraintTop_toBottomOf="@+id/bt_rxjava_flatMap"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+
+</android.support.constraint.ConstraintLayout>
