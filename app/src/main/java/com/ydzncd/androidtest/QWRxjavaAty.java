@@ -32,6 +32,7 @@ public class QWRxjavaAty extends Activity {
             @Override
             public void subscribe(ObservableEmitter<Object> e) throws Exception {
                 Log.e(TAG, "Observable emit 1" + "\n");
+
                 e.onNext(1);
                 Log.e(TAG, "Observable emit 2" + "\n");
                 e.onNext(2);
@@ -40,11 +41,6 @@ public class QWRxjavaAty extends Activity {
                 e.onComplete();
                 Log.e(TAG, "Observable emit 4" + "\n" );
                 e.onNext(4);
-            }
-        }).map(new Function<Object, String>() {
-            @Override
-            public String apply(Object integer) throws Exception {
-                return "aaaa " + integer;
             }
         }).subscribe(new Observer<Object>() {
 
@@ -92,8 +88,13 @@ public class QWRxjavaAty extends Activity {
             }
         });
     }
+    @OnClick(R.id.bt_rxjava_flatMap)
+    public void onRxjavaFlatMapTestClick(){
+
+    }
 
     private void readme(){
         //http://gank.io/post/560e15be2dca930e00da1083#toc_2
+        //官方中文资料: https://mcxiaoke.gitbooks.io/rxdocs/content/Intro.html
     }
 }
