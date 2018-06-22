@@ -5,6 +5,8 @@ import android.os.Bundle;
 import android.util.Log;
 
 import com.ydzncd.androidtest.Retrofit.AppUpdateService;
+import com.ydzncd.androidtest.Retrofit.HeModel;
+import com.ydzncd.androidtest.Retrofit.HeWeatherService;
 
 import java.io.IOException;
 
@@ -21,6 +23,7 @@ import retrofit2.Callback;
 import retrofit2.Response;
 import retrofit2.Retrofit;
 import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory;
+import retrofit2.converter.gson.GsonConverterFactory;
 
 public class QWRetrofitAty extends Activity {
 
@@ -38,7 +41,7 @@ public class QWRetrofitAty extends Activity {
                 .baseUrl("http://18.218.84.54/")
                 .build();
         AppUpdateService appUpdateService = retrofit.create(AppUpdateService.class);
-        Call<ResponseBody> call = null;//appUpdateService.getUpdateInfo("1", "zh", "1.0.9", "1.1.27.0.0");
+        Call<ResponseBody> call = appUpdateService.getUpdateInfo("1", "zh", "1.0.9", "1.1.27.0.0");
         call.enqueue(new Callback<ResponseBody>() {
             @Override
             public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
@@ -92,6 +95,27 @@ public class QWRetrofitAty extends Activity {
 
                     }
                 });
+    }
+
+    @OnClick(R.id.bt_weather_test)
+    public void onWeatherTestClick(){
+        Retrofit retrofit = new Retrofit.Builder()
+                .baseUrl("https://free-api.heweather.com/")
+                .addConverterFactory(GsonConverterFactory.create())
+                .build();
+        HeWeatherService appWeatherService = retrofit.create(HeWeatherService.class);
+        Call<HeModel> call = appWeatherService.getHeWeatherInfo("22.57108146,113.86268045", "10a8b0f3908f44f2901c0db30b7af083", "zh", "m");
+        call.enqueue(new Callback<HeModel>() {
+            @Override
+            public void onResponse(Call<HeModel> call, Response<HeModel> response) {
+                Log.e("qob", "response body " + response.body() + " response " + response);
+            }
+
+            @Override
+            public void onFailure(Call<HeModel> call, Throwable t) {
+
+            }
+        });
     }
 
     private void readme(){

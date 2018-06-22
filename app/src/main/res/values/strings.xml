@@ -11,5 +11,16 @@
         <item>dagger2</item>
         <item>rxjava</item>
         <item>Retrofit2</item>
+        <item>手机定位</item>
+    </array>
+    <array name="mainActivitys">
+        <item>GWPermissionAty</item>
+        <item>GWPermissionAty</item>
+        <item>GWPermissionAty</item>
+        <item>GWPermissionAty</item>
+        <item>GWPermissionAty</item>
+        <item>QWRxjavaAty</item>
+        <item>QWRetrofitAty</item>
+        <item>QWLocationAty</item>
     </array>
 </resources>

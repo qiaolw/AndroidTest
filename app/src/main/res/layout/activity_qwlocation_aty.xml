@@ -4,25 +4,23 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".QWRetrofitAty">
+    tools:context=".QWLocationAty">
 
     <Button
-        android:id="@+id/bt_retrofit_test"
-        android:text="Retrofit Test"
+        android:id="@+id/bt_location_test"
+        android:text="测试基站定位"
         android:layout_width="match_parent"
         android:layout_height="wrap_content" />
 
     <Button
-        android:id="@+id/bt_retrofitwithrxjava_test"
-        android:text="RetrofitWithRxJava Test"
-        app:layout_constraintTop_toBottomOf="@+id/bt_retrofit_test"
+        android:id="@+id/bt_location_gps_test"
+        android:text="测试gps定位"
+        app:layout_constraintTop_toBottomOf="@+id/bt_location_test"
         android:layout_width="match_parent"
         android:layout_height="wrap_content" />
-
-    <Button
-        android:id="@+id/bt_weather_test"
-        android:text="和风天气测试"
-        app:layout_constraintTop_toBottomOf="@+id/bt_retrofitwithrxjava_test"
+    <TextView
+        android:id="@+id/tv_location"
+        app:layout_constraintTop_toBottomOf="@+id/bt_location_gps_test"
         android:layout_width="match_parent"
         android:layout_height="wrap_content" />
 

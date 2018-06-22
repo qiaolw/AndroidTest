@@ -57,20 +57,14 @@ public class QWMainAdapter extends RecyclerView.Adapter<QWMainAdapter.NormalText
         @OnClick
         void onClick(View view) {
             int position = getAdapterPosition();
-            if (position == 0){
-                mContext.startActivity(new Intent(mContext, GWPermissionAty.class));
-            }
-            else if (position == 1){
-
-            }
-            else if (position == 2){
-                mContext.startActivity(new Intent(mContext, QWGradleAty.class));
-            }
-            else if (position == 5){
-                mContext.startActivity(new Intent(mContext, QWRxjavaAty.class));
-            }
-            else{
-                mContext.startActivity(new Intent(mContext, QWRetrofitAty.class));
+            String[] tActivityTitles = mContext.getResources().getStringArray(R.array.mainActivitys);
+            String tActivityTitle = tActivityTitles[position];
+            String tPacketName =  "com.ydzncd.androidtest." + tActivityTitle;
+            try {
+                Log.e("qob", "tActivityTitle " + tActivityTitle + " class " + Class.forName(tPacketName));
+                mContext.startActivity(new Intent(mContext,  Class.forName(tPacketName)));
+            } catch (ClassNotFoundException e) {
+                e.printStackTrace();
             }
         }
     }

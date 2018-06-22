@@ -11,9 +11,9 @@ public interface  AppUpdateService {
     Observable<ResponseBody> getAppInfoWithRxjava(@Query("customerId") String customerId, @Query("language") String language,
                                                   @Query("appVersion") String appVersion, @Query("deviceVersion") String deviceVersion);
 
-//    @GET("YueDongService/app/getAppInfo.do?product=device")
-//    Call<ResponseBody> getUpdateInfo(@Query("customerId") String customerId, @Query("language") String language,
-//                                     @Query("appVersion") String appVersion, @Query("deviceVersion") String deviceVersion);
+    @GET("YueDongService/app/getAppInfo.do?product=device")
+    Call<ResponseBody> getUpdateInfo(@Query("customerId") String customerId, @Query("language") String language,
+                                     @Query("appVersion") String appVersion, @Query("deviceVersion") String deviceVersion);
 
 
 }
