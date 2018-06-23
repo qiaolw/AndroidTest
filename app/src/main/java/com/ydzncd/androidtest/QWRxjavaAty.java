@@ -6,6 +6,7 @@ import android.util.Log;
 
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import io.reactivex.Flowable;
 import io.reactivex.Observable;
 import io.reactivex.ObservableEmitter;
 import io.reactivex.ObservableOnSubscribe;
@@ -13,6 +14,7 @@ import io.reactivex.Observer;
 import io.reactivex.disposables.Disposable;
 import io.reactivex.functions.Consumer;
 import io.reactivex.functions.Function;
+import io.reactivex.functions.Predicate;
 
 
 public class QWRxjavaAty extends Activity {
@@ -64,6 +66,17 @@ public class QWRxjavaAty extends Activity {
                 Log.e(TAG, "onComplete");
             }
         });
+
+        hello("abc", "bbbc", "qob", "jow");
+    }
+
+    private void hello(String... names){
+        Observable.fromArray(names).subscribe(new Consumer<String>() {
+            @Override
+            public void accept(String s) throws Exception {
+                Log.e("qob", "Hello " + s);
+            }
+        });
     }
 
     @OnClick(R.id.bt_rxjava_map)
@@ -92,6 +105,34 @@ public class QWRxjavaAty extends Activity {
     public void onRxjavaFlatMapTestClick(){
 
     }
+    @OnClick(R.id.bt_rxjava_Flowable)
+    public void onRxjavaFlowableClick(){
+        Flowable.just("Hello world").subscribe(new Consumer<String>() {
+            @Override
+            public void accept(String s) throws Exception {
+                Log.e("qob", "accept " + s);
+            }
+        });
+
+        Flowable<Integer> flow = Flowable.range(1, 6).map(new Function<Integer, Integer>() {
+            @Override
+            public Integer apply(Integer integer) throws Exception {
+                return integer*integer;
+            }
+        }).filter(new Predicate<Integer>() {
+            @Override
+            public boolean test(Integer integer) throws Exception {
+                return (integer % 3 == 0);
+            }
+        });
+
+        flow.subscribe(new Consumer<Integer>() {
+            @Override
+            public void accept(Integer integer) throws Exception {
+                Log.e("qob", "accept " + integer);
+            }
+        });
+}
 
     private void readme(){
         //http://gank.io/post/560e15be2dca930e00da1083#toc_2
