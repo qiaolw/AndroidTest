@@ -122,5 +122,6 @@ public class QWRetrofitAty extends Activity {
         //https://www.jianshu.com/p/308f3c54abdd
         // http://square.github.io/retrofit/
         //https://www.jianshu.com/p/cdde02a0777c
+        //http://reactivex.io/documentation/operators.html
     }
 }
