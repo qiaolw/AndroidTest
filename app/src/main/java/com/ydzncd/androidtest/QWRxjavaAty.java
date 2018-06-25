@@ -135,6 +135,34 @@ public class QWRxjavaAty extends Activity {
 
     @OnClick(R.id.bt_rxjava_concatMap)
     public void onRxjavaConcatMapClick(){
+        Observable.just(1,2,3,4)
+                .map(new Function<Integer, String>() {
+            @Override
+            public String apply(Integer integer) throws Exception {
+                if (integer % 2 == 0){
+                    return "test" + integer;
+                }
+                return "error";
+            }
+        }).filter(new Predicate<String>() {
+            @Override
+            public boolean test(String s) throws Exception {
+                if (s.equals("test4")){
+                    return true;
+                }
+                return false;
+            }
+        }).subscribe(new Consumer<String>() {
+            @Override
+            public void accept(String s) throws Exception {
+                Log.e(TAG, "accept " + s);
+            }
+        }, new Consumer<Throwable>() {
+            @Override
+            public void accept(Throwable throwable) throws Exception {
+                Log.e(TAG, "Throwable " + throwable);
+            }
+        });
 
     }
     @OnClick(R.id.bt_rxjava_Flowable)
