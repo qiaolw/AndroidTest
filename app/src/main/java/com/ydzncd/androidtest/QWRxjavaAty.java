@@ -7,6 +7,7 @@ import android.util.Log;
 import org.reactivestreams.Publisher;
 
 import java.util.ArrayList;
+import java.util.List;
 import java.util.concurrent.TimeUnit;
 
 import butterknife.ButterKnife;
@@ -21,6 +22,7 @@ import io.reactivex.functions.BiFunction;
 import io.reactivex.functions.Consumer;
 import io.reactivex.functions.Function;
 import io.reactivex.functions.Predicate;
+import io.reactivex.observables.GroupedObservable;
 import io.reactivex.schedulers.Schedulers;
 import io.reactivex.schedulers.Timed;
 
@@ -375,6 +377,62 @@ public class QWRxjavaAty extends Activity {
                 Log.e("qob", "interval accept " + aLong);
             }
         });
+    }
+
+    @OnClick(R.id.bt_rxjava_transforming)
+    public void onTransformObservalbleClick(){
+        //buffer 定期将Observable中的物品收集到捆绑包中并发出这些捆绑包，而不是一次只发放一个物品
+        Observable.just(1,2).buffer(2).subscribe(new Consumer<List<Integer>>() {
+            @Override
+            public void accept(List<Integer> integers) throws Exception {
+                Log.e("qob", "TransformObservalble " + integers);
+            }
+        });
+        Observable.just(1,2, 3, 4).buffer(2, 3).subscribe(new Consumer<List<Integer>>() {
+            @Override
+            public void accept(List<Integer> integers) throws Exception {
+                Log.e("qob", "TransformObservalble " + integers);
+            }
+        });
+        //FlatMap 将Observable发射的物体转换为Observables，然后将这些物体的辐射平坦化为单个Observable
+
+        //GroupBy 将一个Observable分成一组Observable，每个Observable从原始Observable发出不同组的项目，按键组织
+        Observable.just(1,2,3,4).groupBy(new Function<Integer, String>() {
+            @Override
+            public String apply(Integer integer) throws Exception {
+                if (integer % 2 == 0){
+                    return "aaaa";
+                }
+                return "bbbb";
+            }
+        }).subscribe(new Consumer<GroupedObservable<String, Integer>>() {
+            @Override
+            public void accept(final GroupedObservable<String, Integer> stringIntegerGroupedObservable) throws Exception {
+                stringIntegerGroupedObservable.subscribe(new Consumer<Integer>() {
+                    @Override
+                    public void accept(Integer integer) throws Exception {
+                        Log.e("qob", "groupBy " + integer + " key: " + stringIntegerGroupedObservable.getKey());
+                    }
+                });
+            }
+        });
+
+        //Map 通过对每个项目应用函数来转换Observable发出的项目
+
+        //Scan 对Observable发出的每个项目按顺序应用一个函数，然后逐个发送
+        Observable.just(1, 2, 3).scan(new BiFunction<Integer, Integer, Integer>() {
+            @Override
+            public Integer apply(Integer integer, Integer integer2) throws Exception {
+                return integer + integer2;
+            }
+        }).subscribe(new Consumer<Integer>() {
+            @Override
+            public void accept(Integer integer) throws Exception {
+                Log.e("qob", "Scan " + integer);
+            }
+        });
+
+        //Window 定期将Observable中的项目细分为Observable窗口并发出这些窗口，而不是一次发送一个项目
     }
 
 

@@ -55,5 +55,11 @@
         app:layout_constraintTop_toBottomOf="@+id/bt_rxjava_Flowable"
         android:layout_width="match_parent"
         android:layout_height="wrap_content" />
+    <Button
+        android:id="@+id/bt_rxjava_transforming"
+        android:text="Transforming Observables"
+        app:layout_constraintTop_toBottomOf="@+id/bt_rxjava_time"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
 
 </android.support.constraint.ConstraintLayout>

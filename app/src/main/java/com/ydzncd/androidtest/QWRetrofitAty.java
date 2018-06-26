@@ -70,29 +70,10 @@ public class QWRetrofitAty extends Activity {
         appUpdateService.getAppInfoWithRxjava("1", "en", "1.0.9", "1.1.27.0.0")
                 .subscribeOn(Schedulers.io())
                 .observeOn(Schedulers.io())
-                .subscribe(new Observer<ResponseBody>() {
+                .subscribe(new Consumer<ResponseBody>() {
                     @Override
-                    public void onSubscribe(Disposable d) {
-
-                    }
-
-                    @Override
-                    public void onNext(ResponseBody responseBody) {
-                        try {
-                            Log.e("qob", "onNext " + responseBody.string());
-                        } catch (IOException e) {
-                            e.printStackTrace();
-                        }
-                    }
-
-                    @Override
-                    public void onError(Throwable e) {
-
-                    }
-
-                    @Override
-                    public void onComplete() {
-
+                    public void accept(ResponseBody responseBody) throws Exception {
+                        Log.e("qob", "responseBody " + responseBody);
                     }
                 });
     }
