@@ -3,6 +3,7 @@
     <string name="qw_reqpermission">请求权限</string>
     <string name="qw_enterSetting">进入App设置页面</string>
     <string name="qw_enterNtfSetting">通知开启引导设置</string>
+    <string name="change_progress">ProgressBar 更新进度</string>
     <array name="mainTitles">
         <item>Android 6.0运行时权限</item>
         <item>ConstraintLayout</item>
@@ -12,6 +13,7 @@
         <item>rxjava</item>
         <item>Retrofit2</item>
         <item>手机定位</item>
+        <item>View</item>
     </array>
     <array name="mainActivitys">
         <item>GWPermissionAty</item>
@@ -22,5 +24,6 @@
         <item>QWRxjavaAty</item>
         <item>QWRetrofitAty</item>
         <item>QWLocationAty</item>
+        <item>QWViewAty</item>
     </array>
 </resources>
