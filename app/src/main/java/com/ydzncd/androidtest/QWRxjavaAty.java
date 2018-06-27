@@ -17,6 +17,10 @@ import io.reactivex.Observable;
 import io.reactivex.ObservableEmitter;
 import io.reactivex.ObservableOnSubscribe;
 import io.reactivex.Observer;
+import io.reactivex.Single;
+import io.reactivex.SingleEmitter;
+import io.reactivex.SingleObserver;
+import io.reactivex.SingleOnSubscribe;
 import io.reactivex.disposables.Disposable;
 import io.reactivex.functions.BiFunction;
 import io.reactivex.functions.Consumer;
@@ -38,7 +42,7 @@ public class QWRxjavaAty extends Activity {
     }
 
     @OnClick(R.id.bt_rxjava_test)
-    public void rxjavaTest(){
+    public void onRxjavaCreatingObservablesClick(){
         Observable.create(new ObservableOnSubscribe<Object>() {
 
             @Override
@@ -90,7 +94,7 @@ public class QWRxjavaAty extends Activity {
     }
 
     @OnClick(R.id.bt_rxjava_map)
-    public void onRxjavaMapTestClick(){
+    public void onRxjavaFilteringObservablesClick(){
         Observable.create(new ObservableOnSubscribe<Integer>() {
             @Override
             public void subscribe(ObservableEmitter<Integer> e) throws Exception {
@@ -111,8 +115,12 @@ public class QWRxjavaAty extends Activity {
             }
         });
     }
+
+    /**
+     * 数学和集合运算符
+     */
     @OnClick(R.id.bt_rxjava_flatMap)
-    public void onRxjavaFlatMapTestClick(){
+    public void onRxjavaMathematicalAggregateOperatorsClick(){
         ArrayList<String[]> list=new ArrayList<>();
         String[] words1={"Hello,","I am","China!"};
         String[] words2={"Hello,","I am","Beijing!"};
@@ -136,36 +144,36 @@ public class QWRxjavaAty extends Activity {
     }
 
     @OnClick(R.id.bt_rxjava_concatMap)
-    public void onRxjavaConcatMapClick(){
-        Observable.just(1,2,3,4)
-                .map(new Function<Integer, String>() {
+    public void onRxjavaSingleClick(){
+        Single.just(1).subscribe(new Consumer<Integer>() {
             @Override
-            public String apply(Integer integer) throws Exception {
-                if (integer % 2 == 0){
-                    return "test" + integer;
-                }
-                return "error";
-            }
-        }).filter(new Predicate<String>() {
-            @Override
-            public boolean test(String s) throws Exception {
-                if (s.equals("test4")){
-                    return true;
-                }
-                return false;
-            }
-        }).subscribe(new Consumer<String>() {
-            @Override
-            public void accept(String s) throws Exception {
-                Log.e(TAG, "accept " + s);
-            }
-        }, new Consumer<Throwable>() {
-            @Override
-            public void accept(Throwable throwable) throws Exception {
-                Log.e(TAG, "Throwable " + throwable);
+            public void accept(Integer integer) throws Exception {
+                Log.e("qob", "Single " + integer);
             }
         });
+        Single.create(new SingleOnSubscribe<Integer>() {
 
+            @Override
+            public void subscribe(SingleEmitter<Integer> e) throws Exception {
+  //              e.onSuccess(100);
+                e.onError(new Throwable("Single error"));
+            }
+        }).subscribe(new SingleObserver<Integer>() {
+            @Override
+            public void onSubscribe(Disposable d) {
+
+            }
+
+            @Override
+            public void onSuccess(Integer integer) {
+                Log.e("qob", "Single onSuccess" + integer);
+            }
+
+            @Override
+            public void onError(Throwable e) {
+                Log.e("qob", "Single onError" + e);
+            }
+        });
     }
     @OnClick(R.id.bt_rxjava_Flowable)
     public void onRxjavaFlowableClick(){
@@ -197,7 +205,7 @@ public class QWRxjavaAty extends Activity {
     }
 
     @OnClick(R.id.bt_rxjava_zip)
-    public void onRxjavaZipClick(){
+    public void onRxjavaCombiningObservablesClick(){
         Observable.zip(Observable.just(1, 2, 3,7), Observable.just(4, 5, 6), new BiFunction<Integer, Integer, Integer>() {
             @Override
             public Integer apply(Integer integer, Integer integer2) throws Exception {
@@ -247,7 +255,7 @@ public class QWRxjavaAty extends Activity {
     }
 
     @OnClick(R.id.bt_rxjava_concat)
-    public void onRxjavaConcatClick(){
+    public void onRxjavaBackpressureOperatorsClick(){
         Observable.concat(Observable.just(1,2,3), Observable.just(4,5,6))
                 .subscribe(new Consumer<Integer>() {
                     @Override

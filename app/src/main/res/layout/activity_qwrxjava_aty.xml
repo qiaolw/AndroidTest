@@ -8,38 +8,38 @@
 
     <Button
         android:id="@+id/bt_rxjava_test"
-        android:text="Rxjava Test"
+        android:text="Creating Observables"
         android:layout_width="match_parent"
         android:layout_height="wrap_content" />
     <Button
         android:id="@+id/bt_rxjava_map"
-        android:text="Rxjava map()"
+        android:text="Filtering Observables"
         app:layout_constraintTop_toBottomOf="@+id/bt_rxjava_test"
         android:layout_width="match_parent"
         android:layout_height="wrap_content" />
     <Button
         android:id="@+id/bt_rxjava_zip"
-        android:text="Rxjava zip()"
+        android:text="Combining Observables"
         android:layout_width="match_parent"
         app:layout_constraintTop_toBottomOf="@+id/bt_rxjava_map"
         android:layout_height="wrap_content" />
     <Button
         android:id="@+id/bt_rxjava_concat"
-        android:text="Rxjava concat()"
+        android:text="Backpressure Operators"
         app:layout_constraintTop_toBottomOf="@+id/bt_rxjava_zip"
         android:layout_width="match_parent"
         android:layout_height="wrap_content" />
 
     <Button
         android:id="@+id/bt_rxjava_flatMap"
-        android:text="Rxjava flatMap()"
+        android:text="Mathematical and Aggregate Operators"
         app:layout_constraintTop_toBottomOf="@+id/bt_rxjava_concat"
         android:layout_width="match_parent"
         android:layout_height="wrap_content" />
 
     <Button
         android:id="@+id/bt_rxjava_concatMap"
-        android:text="Rxjava concatMap()"
+        android:text="Single"
         app:layout_constraintTop_toBottomOf="@+id/bt_rxjava_flatMap"
         android:layout_width="match_parent"
         android:layout_height="wrap_content" />
