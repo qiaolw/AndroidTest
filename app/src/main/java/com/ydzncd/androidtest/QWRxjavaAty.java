@@ -7,11 +7,13 @@ import android.util.Log;
 import org.reactivestreams.Publisher;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import io.reactivex.CompletableObserver;
 import io.reactivex.Flowable;
 import io.reactivex.Observable;
 import io.reactivex.ObservableEmitter;
@@ -95,23 +97,52 @@ public class QWRxjavaAty extends Activity {
 
     @OnClick(R.id.bt_rxjava_map)
     public void onRxjavaFilteringObservablesClick(){
-        Observable.create(new ObservableOnSubscribe<Integer>() {
+        //Debounce — only emit an item from an Observable if a particular timespan has passed without it emitting another item
+        //去抖 - 如果特定的时间间隔已经过去而没有发射另一个物品，则仅从Observable发射物品
+        Observable.just(1,2,3,4).debounce(1, TimeUnit.SECONDS);
+
+        //Distinct — suppress duplicate items emitted by an Observable
+        //独特 - 压制Observable发出的重复项目
+
+        //ElementAt — emit only item n emitted by an Observable
+
+        //Filter — emit only those items from an Observable that pass a predicate test
+
+        //First — emit only the first item, or the first item that meets a condition, from an Observable
+        // 从Observable只发出第一个项目或满足条件的第一个项目
+
+        //IgnoreElements — do not emit any items from an Observable but mirror its termination notification
+        //IgnoreElements - 不会从Observable发出任何项目，但会镜像其终止通知
+        Flowable.just(1,2,3,4).ignoreElements().subscribe(new CompletableObserver() {
             @Override
-            public void subscribe(ObservableEmitter<Integer> e) throws Exception {
-                e.onNext(1);
-                e.onNext(2);
-                e.onNext(3);
-                e.onComplete();
+            public void onSubscribe(Disposable d) {
+
             }
-        }).map(new Function<Integer, String>() {
+
             @Override
-            public String apply(Integer integer) throws Exception {
-                return "maptest " + integer;
+            public void onComplete() {
+
             }
-        }).subscribe(new Consumer<String>() {
+
             @Override
-            public void accept(String s) throws Exception {
-                Log.e(TAG, "accept " + s);
+            public void onError(Throwable e) {
+
+            }
+        });
+
+        //Last — emit only the last item emitted by an Observable
+
+        //Sample — emit the most recent item emitted by an Observable within periodic time intervals
+        //在周期性时间间隔内发出由Observable发出的最新项目
+
+
+        //Skip — suppress the first n items emitted by an Observable
+
+        //Take — emit only the first n items emitted by an Observable
+        Observable.just(1,2,3,4).take(2).subscribe(new Consumer<Integer>() {
+            @Override
+            public void accept(Integer integer) throws Exception {
+                Log.e("qob", "take " + integer);
             }
         });
     }
@@ -121,26 +152,18 @@ public class QWRxjavaAty extends Activity {
      */
     @OnClick(R.id.bt_rxjava_flatMap)
     public void onRxjavaMathematicalAggregateOperatorsClick(){
-        ArrayList<String[]> list=new ArrayList<>();
-        String[] words1={"Hello,","I am","China!"};
-        String[] words2={"Hello,","I am","Beijing!"};
-        list.add(words1);
-        list.add(words2);
+        //Concat — emit the emissions from two or more Observables without interleaving them
+        //从两个或多个Obserbles发射排放而不交叉它们
+        Observable.concat(Observable.just(1,2), Observable.just(4,5));
 
-        Flowable.fromIterable(list)
-                .flatMap(new Function<String[], Publisher<String>>() {
-                    @Override
-                    public Publisher<String> apply(String[] strings) throws Exception {
-                        return Flowable.fromArray(strings);
-                    }
-                })
-                .subscribe(new Consumer<String>() {
-                    @Override
-                    public void accept(String s) throws Exception {
-                        Log.e("consumer", s.toString());
-                    }
-                });
-
+        //Reduce — apply a function to each item emitted by an Observable, sequentially, and emit the final value
+        //按顺序对由Observable发出的每个项目应用函数，并发出最终值
+        Observable.just(1,2,3).reduce(new BiFunction<Integer, Integer, Integer>() {
+            @Override
+            public Integer apply(Integer integer, Integer integer2) throws Exception {
+                return null;
+            }
+        });
     }
 
     @OnClick(R.id.bt_rxjava_concatMap)
@@ -206,6 +229,8 @@ public class QWRxjavaAty extends Activity {
 
     @OnClick(R.id.bt_rxjava_zip)
     public void onRxjavaCombiningObservablesClick(){
+
+        //Zip — combine the emissions of multiple Observables together via a specified function and emit single items for each combination based on the results of this function
         Observable.zip(Observable.just(1, 2, 3,7), Observable.just(4, 5, 6), new BiFunction<Integer, Integer, Integer>() {
             @Override
             public Integer apply(Integer integer, Integer integer2) throws Exception {
@@ -402,7 +427,53 @@ public class QWRxjavaAty extends Activity {
                 Log.e("qob", "TransformObservalble " + integers);
             }
         });
+
         //FlatMap 将Observable发射的物体转换为Observables，然后将这些物体的辐射平坦化为单个Observable
+        Flowable.just(5,10).flatMap(new Function<Integer, Publisher<Integer>>() {
+            @Override
+            public Publisher<Integer> apply(Integer integer) throws Exception {
+                if (integer == 5){
+                    List tResut = new ArrayList();
+                    tResut.add(1);
+                    tResut.add(2);
+                    tResut.add(3);
+                    tResut.add(4);
+                    return Flowable.fromIterable(tResut);
+                }
+                else {
+                    List tResut = new ArrayList();
+                    tResut.add(6);
+                    tResut.add(7);
+                    tResut.add(8);
+                    tResut.add(9);
+                    return Flowable.fromIterable(tResut);
+                }
+            }
+        }).subscribe(new Consumer<Integer>() {
+            @Override
+            public void accept(Integer integer) throws Exception {
+                Log.e("qob", "flatMap " + integer);
+            }
+        });
+
+        Flowable.just(1, 2).flatMap(new Function<Integer, Publisher<Integer>>() {
+            @Override
+            public Publisher<Integer> apply(Integer integer) throws Exception {
+                if (integer == 1){
+                    Integer aaa[] = {1,2};
+                    return Flowable.fromArray(aaa);
+                }
+                else {
+
+                    return Flowable.just(7,8);
+                }
+            }
+        }).subscribe(new Consumer<Integer>() {
+            @Override
+            public void accept(Integer integer) throws Exception {
+                Log.e("qob", "flatMap2 " + integer);
+            }
+        });
 
         //GroupBy 将一个Observable分成一组Observable，每个Observable从原始Observable发出不同组的项目，按键组织
         Observable.just(1,2,3,4).groupBy(new Function<Integer, String>() {
