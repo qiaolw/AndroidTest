@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.os.Bundle;
 import android.os.Environment;
 import android.util.Log;
+import android.widget.ProgressBar;
 
 import com.ydzncd.androidtest.Retrofit.AppUpdateService;
 import com.ydzncd.androidtest.Retrofit.HeModel;
@@ -14,7 +15,9 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.util.concurrent.BlockingDeque;
 
+import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import io.reactivex.Observable;
@@ -40,6 +43,7 @@ import retrofit2.converter.gson.GsonConverterFactory;
 
 public class QWRetrofitAty extends Activity {
 
+    @BindView(R.id.ota_progress) ProgressBar mOtaProgressBar;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -122,7 +126,16 @@ public class QWRetrofitAty extends Activity {
                 .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
                 .build();
         AppUpdateService appUpdateService = retrofit.create(AppUpdateService.class);
-        Observable<ResponseBody> downloadOtaObser = appUpdateService.getOtaPackage();
+        Observable<Boolean> downloadOtaObser = appUpdateService.getOtaPackage()
+                .map(new Function<ResponseBody, Boolean>() {
+            @Override
+            public Boolean apply(ResponseBody responseBody) throws Exception {
+                Log.e("qob", "network download file, save to file");
+                writeResponseBodyToDisk(responseBody);
+
+                return true;
+            }
+        });
 
         Observable<Boolean> findExistFileObser = Observable.just(netVer)
                 .map(new Function<String, String>() {
@@ -145,12 +158,7 @@ public class QWRetrofitAty extends Activity {
                         Log.e("qob", "otaFile: " + s);
                         if (otaFile.exists()){
                             Log.e("qob", "本地存在OTA文件,不需要下载");
-                            return Observable.create(new ObservableOnSubscribe<Boolean>() {
-                                @Override
-                                public void subscribe(ObservableEmitter<Boolean> e) throws Exception {
-                                    e.onNext(true);
-                                }
-                            });
+                            return Observable.just(true);
                         }
 
                         return Observable.create(new ObservableOnSubscribe<Boolean>() {
@@ -163,11 +171,10 @@ public class QWRetrofitAty extends Activity {
                     }
                 });
 
-        Observable.concat(findExistFileObser, downloadOtaObser)
+        Observable.concat(findExistFileObser, downloadOtaObser).take(1)
                 .subscribeOn(Schedulers.io())
                 .observeOn(Schedulers.io())
                 .subscribe(new Observer<Object>() {
-
             @Override
             public void onSubscribe(Disposable d) {
 
@@ -176,12 +183,6 @@ public class QWRetrofitAty extends Activity {
             @Override
             public void onNext(Object o) {
                 Log.e("qob", "ota onNext " + o.getClass().toString());
-                if (o instanceof Boolean){
-
-                }
-                else {
-                    writeResponseBodyToDisk((ResponseBody) o);
-                }
             }
 
             @Override
