@@ -25,5 +25,11 @@
         app:layout_constraintTop_toBottomOf="@+id/bt_retrofitwithrxjava_test"
         android:layout_width="match_parent"
         android:layout_height="wrap_content" />
+    <Button
+        android:id="@+id/bt_ota_start"
+        android:text="OTA开始升级"
+        app:layout_constraintTop_toBottomOf="@+id/bt_weather_test"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
 
 </android.support.constraint.ConstraintLayout>

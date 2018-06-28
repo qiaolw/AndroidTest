@@ -6,6 +6,7 @@ import android.util.Log;
 
 import org.reactivestreams.Publisher;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -18,6 +19,7 @@ import io.reactivex.Flowable;
 import io.reactivex.Observable;
 import io.reactivex.ObservableEmitter;
 import io.reactivex.ObservableOnSubscribe;
+import io.reactivex.ObservableSource;
 import io.reactivex.Observer;
 import io.reactivex.Single;
 import io.reactivex.SingleEmitter;
@@ -154,7 +156,69 @@ public class QWRxjavaAty extends Activity {
     public void onRxjavaMathematicalAggregateOperatorsClick(){
         //Concat — emit the emissions from two or more Observables without interleaving them
         //从两个或多个Obserbles发射排放而不交叉它们
-        Observable.concat(Observable.just(1,2), Observable.just(4,5));
+        Observable.concat(Observable.just(1,2), Observable.just(4,5)).subscribe(new Consumer<Integer>() {
+            @Override
+            public void accept(Integer integer) throws Exception {
+                Log.e("qob", "concat " + integer);
+            }
+        });
+
+        final String otaFilePath = "aa/bb/cccc.img";
+       Observable<File> readFileO = Observable.just(otaFilePath).flatMap(new Function<String, ObservableSource<File>>() {
+            @Override
+            public ObservableSource<File> apply(String s) throws Exception {
+                final boolean isFileExist = true;
+                if (isFileExist){ //本地找到文件
+
+                }
+                return Observable.create(new ObservableOnSubscribe<File>() {
+                    @Override
+                    public void subscribe(ObservableEmitter<File> e) throws Exception {
+                        if (isFileExist){
+                            e.onNext(new File(otaFilePath));
+                        }
+                        else {
+                            e.onComplete();
+                        }
+                    }
+                });
+            }
+        });
+
+        Observable<File> networkO = Observable.just(otaFilePath).map(new Function<String, String>() {
+            @Override
+            public String apply(String s) throws Exception {
+                return "www.baidu.com/"+otaFilePath; //转换成下载地址
+            }
+        }).flatMap(new Function<String, ObservableSource<File>>() {
+            @Override
+            public ObservableSource<File> apply(String s) throws Exception {
+                //下载升级文件
+                return null;
+            }
+        });
+
+        Observable.concat(readFileO, networkO).subscribe(new Observer<File>() {
+            @Override
+            public void onSubscribe(Disposable d) {
+
+            }
+
+            @Override
+            public void onNext(File file) {
+
+            }
+
+            @Override
+            public void onError(Throwable e) {
+
+            }
+
+            @Override
+            public void onComplete() {
+
+            }
+        });
 
         //Reduce — apply a function to each item emitted by an Observable, sequentially, and emit the final value
         //按顺序对由Observable发出的每个项目应用函数，并发出最终值
@@ -198,34 +262,6 @@ public class QWRxjavaAty extends Activity {
             }
         });
     }
-    @OnClick(R.id.bt_rxjava_Flowable)
-    public void onRxjavaFlowableClick(){
-        Flowable.just("Hello world").subscribe(new Consumer<String>() {
-            @Override
-            public void accept(String s) throws Exception {
-                Log.e("qob", "accept " + s);
-            }
-        });
-
-        Flowable<Integer> flow = Flowable.range(1, 6).map(new Function<Integer, Integer>() {
-            @Override
-            public Integer apply(Integer integer) throws Exception {
-                return integer*integer;
-            }
-        }).filter(new Predicate<Integer>() {
-            @Override
-            public boolean test(Integer integer) throws Exception {
-                return (integer % 3 == 0);
-            }
-        });
-
-        flow.subscribe(new Consumer<Integer>() {
-            @Override
-            public void accept(Integer integer) throws Exception {
-                Log.e("qob", "accept " + integer);
-            }
-        });
-    }
 
     @OnClick(R.id.bt_rxjava_zip)
     public void onRxjavaCombiningObservablesClick(){
@@ -260,7 +296,6 @@ public class QWRxjavaAty extends Activity {
                 e.onNext(4);
                 e.onNext(5);
                 Log.e("qob", "zip observable2 emitter");
-
             }
         });
 
@@ -281,64 +316,21 @@ public class QWRxjavaAty extends Activity {
 
     @OnClick(R.id.bt_rxjava_concat)
     public void onRxjavaBackpressureOperatorsClick(){
-        Observable.concat(Observable.just(1,2,3), Observable.just(4,5,6))
-                .subscribe(new Consumer<Integer>() {
-                    @Override
-                    public void accept(Integer integer) throws Exception {
-                        Log.e("qob", "Concat " + integer);
-                    }
-                });
-
-        Observable.concat(Observable.just(1, 2, 3), Observable.just(5, 6 ,7))
-                .subscribe(new Consumer<Integer>() {
-                    @Override
-                    public void accept(Integer integer) throws Exception {
-                        Log.e("qob", "concat 1 " + integer);
-                    }
-                }, new Consumer<Throwable>() {
-                    @Override
-                    public void accept(Throwable throwable) throws Exception {
-                        Log.e("qob", "ThrowAble " + throwable);
-                    }
-                });
-
-        Observable observable1 = Observable.create(new ObservableOnSubscribe() {
+        Observable.interval(1, TimeUnit.MILLISECONDS).observeOn(Schedulers.newThread()).subscribe(new Consumer<Long>() {
             @Override
-            public void subscribe(ObservableEmitter e) throws Exception {
-                e.onNext(1);
-                Log.e("qob", "observable1 1");
-                e.onNext(2);
-                Log.e("qob", "observable1 2");
-
-         //       e.onError(new Throwable("aaaaa"));
-                e.onComplete();  // observable1 一定要调用onComlete()后才会 遍历observable2
+            public void accept(Long aLong) throws Exception {
+                Thread.sleep(1000);
+                Log.e("qob", "Backpressure " + aLong + " Thread " + Thread.currentThread());
             }
         });
 
-        Observable observable2 = Observable.create(new ObservableOnSubscribe() {
+        Flowable.interval(1, TimeUnit.MILLISECONDS).observeOn(Schedulers.newThread()).subscribe(new Consumer<Long>() {
             @Override
-            public void subscribe(ObservableEmitter e) throws Exception {
-                e.onNext(4);
-                Log.e("qob", "observable2 4");
-                e.onNext(5);
-                Log.e("qob", "observable2 5");
+            public void accept(Long aLong) throws Exception {
+                Thread.sleep(1000);
+                Log.e("qob", "Flowable Backpressure " + aLong + " Thread " + Thread.currentThread());
             }
         });
-
-        Observable.concat(observable1, observable2).timeInterval()
-                .subscribe(new Consumer() {
-                    @Override
-                    public void accept(Object o) throws Exception {
-                        Log.e("qob", "consumer " + o);
-                    }
-                }, new Consumer<Throwable>() {
-                    @Override
-                    public void accept(Throwable throwable) throws Exception {
-                        Log.e("qob", "Throwable " + throwable);
-                    }
-                });
-
-
     }
 
     @OnClick(R.id.bt_rxjava_time)

@@ -15,5 +15,8 @@ public interface  AppUpdateService {
     Call<ResponseBody> getUpdateInfo(@Query("customerId") String customerId, @Query("language") String language,
                                      @Query("appVersion") String appVersion, @Query("deviceVersion") String deviceVersion);
 
+    //"http://18.218.84.54/k6File/appFile/device/1/K6_watch_device.img"
+    @GET("k6File/appFile/device/1/K6_watch_device.img")
+    Observable<ResponseBody> getOtaPackage();
 
 }
