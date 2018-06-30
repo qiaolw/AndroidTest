@@ -5,6 +5,7 @@ import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.http.GET;
 import retrofit2.http.Query;
+import retrofit2.http.Streaming;
 
 public interface  AppUpdateService {
     @GET("YueDongService/app/getAppInfo.do?product=device")
@@ -16,6 +17,7 @@ public interface  AppUpdateService {
                                      @Query("appVersion") String appVersion, @Query("deviceVersion") String deviceVersion);
 
     //"http://18.218.84.54/k6File/appFile/device/1/K6_watch_device.img"
+    @Streaming
     @GET("k6File/appFile/device/1/K6_watch_device.img")
     Observable<ResponseBody> getOtaPackage();
 

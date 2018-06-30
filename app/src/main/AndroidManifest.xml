@@ -42,8 +42,10 @@
         <activity
             android:name=".QWLocationAty"
             android:screenOrientation="portrait" />
-        <activity android:name=".QWViewAty"
-            android:screenOrientation="portrait"></activity>
+        <activity
+            android:name=".QWViewAty"
+            android:screenOrientation="portrait" />
+        <activity android:name=".QWTouchAty"></activity>
     </application>
 
 </manifest>

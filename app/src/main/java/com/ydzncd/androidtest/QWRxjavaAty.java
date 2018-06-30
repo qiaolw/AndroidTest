@@ -286,7 +286,6 @@ public class QWRxjavaAty extends Activity {
                 e.onComplete();
                 e.onNext(2);
                 Log.e("qob", "zip observable1 emitter");
-
             }
         });
 
@@ -306,7 +305,6 @@ public class QWRxjavaAty extends Activity {
                 return integer + integer2;
             }
         }).subscribe(new Consumer<Object>() {
-
             @Override
             public void accept(Object o) throws Exception {
                 Log.e("qob", "zip Consumer " + o);

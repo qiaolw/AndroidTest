@@ -7,6 +7,8 @@ import android.util.Log;
 import android.widget.ProgressBar;
 
 import com.ydzncd.androidtest.Retrofit.AppUpdateService;
+import com.ydzncd.androidtest.Retrofit.FileDownloadInterceptor;
+import com.ydzncd.androidtest.Retrofit.FileDownloadListener;
 import com.ydzncd.androidtest.Retrofit.HeModel;
 import com.ydzncd.androidtest.Retrofit.HeWeatherService;
 
@@ -16,6 +18,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.util.concurrent.BlockingDeque;
+import java.util.concurrent.TimeUnit;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -33,6 +36,7 @@ import io.reactivex.disposables.Disposable;
 import io.reactivex.functions.Consumer;
 import io.reactivex.functions.Function;
 import io.reactivex.schedulers.Schedulers;
+import okhttp3.OkHttpClient;
 import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -120,9 +124,50 @@ public class QWRetrofitAty extends Activity {
     @OnClick(R.id.bt_ota_start)
     public void onOtaStartUpdateClick()
     {
+        FileDownloadInterceptor mInterceptor = new FileDownloadInterceptor(new FileDownloadListener() {
+            @Override
+            public void onStartDownload() {
+                Log.e("qob", "onStartDownload");
+                runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        mOtaProgressBar.setProgress(0);
+                    }
+                });
+            }
+
+            @Override
+            public void onProgress(final int progress) {
+                Log.e("qob", "onProgress " + progress + " Thread " + Thread.currentThread().getName());
+                runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        mOtaProgressBar.setProgress(progress);
+                    }
+                });
+            }
+
+            @Override
+            public void onFinishDownload() {
+                Log.e("qob", "onFinishDownload");
+            }
+
+            @Override
+            public void onFail(String errorInfo) {
+                Log.e("qob", "onFail");
+            }
+        });
+
+        OkHttpClient httpClient = new OkHttpClient.Builder()
+                .addInterceptor(mInterceptor)
+                .retryOnConnectionFailure(true)
+                .connectTimeout(15, TimeUnit.SECONDS)
+                .build();
+
         String netVer = "1.1.28.0.0";
         final Retrofit retrofit = new Retrofit.Builder()
                 .baseUrl("http://18.218.84.54/")
+                .client(httpClient)
                 .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
                 .build();
         AppUpdateService appUpdateService = retrofit.create(AppUpdateService.class);
@@ -171,7 +216,8 @@ public class QWRetrofitAty extends Activity {
                     }
                 });
 
-        Observable.concat(findExistFileObser, downloadOtaObser).take(1)
+        Observable.concat(findExistFileObser, downloadOtaObser)
+                .take(1)
                 .subscribeOn(Schedulers.io())
                 .observeOn(Schedulers.io())
                 .subscribe(new Observer<Object>() {
@@ -206,7 +252,7 @@ public class QWRetrofitAty extends Activity {
             OutputStream outputStream = null;
 
             try {
-                byte[] fileReader = new byte[4096];
+                byte[] fileReader = new byte[1024];
 
                 long fileSize = body.contentLength();
                 long fileSizeDownloaded = 0;
