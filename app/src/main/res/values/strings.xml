@@ -6,7 +6,7 @@
     <string name="change_progress">ProgressBar 更新进度</string>
     <array name="mainTitles">
         <item>Android 6.0运行时权限</item>
-        <item>ConstraintLayout</item>
+        <item>rxandroidble体验</item>
         <item>Gradle配置</item>
         <item>MVP模式</item>
         <item>dagger2</item>
@@ -18,7 +18,7 @@
     </array>
     <array name="mainActivitys">
         <item>GWPermissionAty</item>
-        <item>GWPermissionAty</item>
+        <item>GWRxBleAty</item>
         <item>GWPermissionAty</item>
         <item>GWPermissionAty</item>
         <item>GWPermissionAty</item>

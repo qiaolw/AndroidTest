@@ -45,7 +45,8 @@
         <activity
             android:name=".QWViewAty"
             android:screenOrientation="portrait" />
-        <activity android:name=".QWTouchAty"></activity>
+        <activity android:name=".QWTouchAty" />
+        <activity android:name=".GWRxBleAty"></activity>
     </application>
 
 </manifest>

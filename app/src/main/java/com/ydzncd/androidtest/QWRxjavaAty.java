@@ -502,6 +502,10 @@ public class QWRxjavaAty extends Activity {
         });
 
         //Window 定期将Observable中的项目细分为Observable窗口并发出这些窗口，而不是一次发送一个项目
+
+
+       // Observable.empty();
+       //   Observable.never();
     }
 
 
