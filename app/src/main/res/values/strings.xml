@@ -8,7 +8,7 @@
         <item>Android 6.0运行时权限</item>
         <item>rxandroidble体验</item>
         <item>Gradle配置</item>
-        <item>MVP模式</item>
+        <item>GoogleFit</item>
         <item>dagger2</item>
         <item>rxjava</item>
         <item>Retrofit2</item>
@@ -20,7 +20,7 @@
         <item>GWPermissionAty</item>
         <item>GWRxBleAty</item>
         <item>GWPermissionAty</item>
-        <item>GWPermissionAty</item>
+        <item>GWGoogleFitAty</item>
         <item>GWPermissionAty</item>
         <item>QWRxjavaAty</item>
         <item>QWRetrofitAty</item>
