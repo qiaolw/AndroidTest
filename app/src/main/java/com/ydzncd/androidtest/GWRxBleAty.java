@@ -2,6 +2,7 @@ package com.ydzncd.androidtest;
 
 import android.app.Activity;
 import android.os.Bundle;
+import android.util.Log;
 
 import com.polidea.rxandroidble2.RxBleClient;
 import com.polidea.rxandroidble2.scan.ScanResult;
@@ -37,12 +38,12 @@ public class GWRxBleAty extends Activity {
         ).subscribe(new Consumer<ScanResult>() {
             @Override
             public void accept(ScanResult scanResult) throws Exception {
-
+                Log.e("qob", "scanResult " + scanResult);
             }
         }, new Consumer<Throwable>() {
             @Override
             public void accept(Throwable throwable) throws Exception {
-
+                Log.e("qob", "throwable " + throwable);
             }
         });
 
