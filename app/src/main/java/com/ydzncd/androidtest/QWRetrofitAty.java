@@ -210,14 +210,8 @@ public class QWRetrofitAty extends Activity {
                             Log.e("qob", "本地存在OTA文件,不需要下载");
                             return Observable.just(true);
                         }
-
-                        return Observable.create(new ObservableOnSubscribe<Boolean>() {
-                            @Override
-                            public void subscribe(ObservableEmitter<Boolean> e) throws Exception {
-                                Log.e("qob", "本地不存在OTA文件,需要下载");
-                                e.onComplete();
-                            }
-                        });
+                        Log.e("qob", "本地不存在OTA文件, 需要下载");
+                        return Observable.empty();
                     }
                 });
 
@@ -250,60 +244,43 @@ public class QWRetrofitAty extends Activity {
 
     @OnClick(R.id.bt_file_upload)
     public void onFileUploadClick(){
-
-    }
-
-    public void appSetUserInfoWithHeadImage(File headImageFile, USerInfo.Info uInfo){
-
         Map<String, String> params = new HashMap<>();
-        params.put("sex", uInfo.getSex() + "");
-        params.put("birthYear", uInfo.getBirthYear() + "");
-        params.put("weight", uInfo.getWeight() + "");
-        params.put("height", uInfo.getHeight() + "");
-        params.put("nickName", uInfo.getNickName());
+        params.put("sex", "1");
+        params.put("birthYear", "1990");
+        params.put("weight", "70");
+        params.put("height", "179");
+        params.put("nickName", "你好你好吧");
 
-        if (uInfo.getGoalStep() > 0) {
-            params.put("goalStep", uInfo.getGoalStep() + "");
-        }
+        Retrofit retrofit = new Retrofit.Builder()
+                .baseUrl("http://18.218.84.54/")
+                .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
+                .build();
 
-        int tUserId =  SharedPreferenceUtils.getInstance().getUserId();
-        String token;
-        String userId;
-        if (tUserId == -1){ //未登录
-            token = uInfo.getToken();
-            userId = uInfo.getUserId() + "";
-        }
-        else {
-            token = SharedPreferenceUtils.getInstance().getToken();
-            userId = SharedPreferenceUtils.getInstance().getUserId() + "";
-        }
+        String tOtaFilePathBase = Environment.getExternalStorageDirectory() + "/yuedongTest/temp1530352862434.jpg";
+        File headImageFile = new File(tOtaFilePathBase);
 
-        LoginHttpService tLoginService = YDHttpHelper.getInstance().getmRetrofit().create(LoginHttpService.class);
-        Observable<USerInfo> tModifyInfoObservable;
-        if (headImageFile != null && headImageFile.exists()) {
-            RequestBody tHeadIconBody = RequestBody.create(MediaType.parse("multipart/form-data"), headImageFile);
-            MultipartBody.Part headIcon = MultipartBody.Part.createFormData("headIcon", headImageFile.getName(), tHeadIconBody);
-            tModifyInfoObservable = tLoginService.appSetUserInfoWithHeadImage(params, headIcon, "utf-8", token, userId);
-        }
-        else {
-            tModifyInfoObservable = tLoginService.appSetUserInfo(params, token, userId);
-        }
 
-        mRegInfoView.showProgressDialog();
-        tModifyInfoObservable.subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread()).subscribe(new Consumer<USerInfo>() {
+        AppUpdateService tLoginService = retrofit.create(AppUpdateService.class);
+
+        RequestBody tHeadIconBody = RequestBody.create(MediaType.parse("multipart/form-data"), headImageFile);
+        MultipartBody.Part headIcon = MultipartBody.Part.createFormData("headIcon", headImageFile.getName(), tHeadIconBody);
+
+        tLoginService.appSetUserInfoWithHeadImage(params, headIcon, "utf-8", "asadsffsafs", "1000")
+                .subscribeOn(Schedulers.io())
+                .observeOn(Schedulers.io())
+                .subscribe(new Consumer<ResponseBody>() {
             @Override
-            public void accept(USerInfo uSerInfo) throws Exception {
+            public void accept(ResponseBody uSerInfo) throws Exception {
                 Log.e("qob", "uSerInfo " + uSerInfo);
-                mRegInfoView.showUserInfoOk(uSerInfo);
             }
         }, new Consumer<Throwable>() {
             @Override
             public void accept(Throwable throwable) throws Exception {
                 Log.e("qob", "throwable " + throwable);
-                mRegInfoView.showUserInfoError();
             }
         });
+        //https://blog.csdn.net/sinat_30822393/article/details/75529910
+        //Retrofit 图文上传
     }
 
     private boolean writeResponseBodyToDisk(ResponseBody body) {
