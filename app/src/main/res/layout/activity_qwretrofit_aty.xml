@@ -42,5 +42,11 @@
         app:layout_constraintTop_toBottomOf="@+id/bt_ota_start"
         android:layout_width="match_parent"
         android:layout_height="wrap_content" />
+    <Button
+        android:id="@+id/bt_file_upload"
+        android:text="文件上传编码问题"
+        app:layout_constraintTop_toBottomOf="@+id/ota_progress"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
 
 </android.support.constraint.ConstraintLayout>

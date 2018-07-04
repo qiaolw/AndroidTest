@@ -17,6 +17,8 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.concurrent.BlockingDeque;
 import java.util.concurrent.TimeUnit;
 
@@ -36,7 +38,10 @@ import io.reactivex.disposables.Disposable;
 import io.reactivex.functions.Consumer;
 import io.reactivex.functions.Function;
 import io.reactivex.schedulers.Schedulers;
+import okhttp3.MediaType;
+import okhttp3.MultipartBody;
 import okhttp3.OkHttpClient;
+import okhttp3.RequestBody;
 import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -243,6 +248,64 @@ public class QWRetrofitAty extends Activity {
         });
     }
 
+    @OnClick(R.id.bt_file_upload)
+    public void onFileUploadClick(){
+
+    }
+
+    public void appSetUserInfoWithHeadImage(File headImageFile, USerInfo.Info uInfo){
+
+        Map<String, String> params = new HashMap<>();
+        params.put("sex", uInfo.getSex() + "");
+        params.put("birthYear", uInfo.getBirthYear() + "");
+        params.put("weight", uInfo.getWeight() + "");
+        params.put("height", uInfo.getHeight() + "");
+        params.put("nickName", uInfo.getNickName());
+
+        if (uInfo.getGoalStep() > 0) {
+            params.put("goalStep", uInfo.getGoalStep() + "");
+        }
+
+        int tUserId =  SharedPreferenceUtils.getInstance().getUserId();
+        String token;
+        String userId;
+        if (tUserId == -1){ //未登录
+            token = uInfo.getToken();
+            userId = uInfo.getUserId() + "";
+        }
+        else {
+            token = SharedPreferenceUtils.getInstance().getToken();
+            userId = SharedPreferenceUtils.getInstance().getUserId() + "";
+        }
+
+        LoginHttpService tLoginService = YDHttpHelper.getInstance().getmRetrofit().create(LoginHttpService.class);
+        Observable<USerInfo> tModifyInfoObservable;
+        if (headImageFile != null && headImageFile.exists()) {
+            RequestBody tHeadIconBody = RequestBody.create(MediaType.parse("multipart/form-data"), headImageFile);
+            MultipartBody.Part headIcon = MultipartBody.Part.createFormData("headIcon", headImageFile.getName(), tHeadIconBody);
+            tModifyInfoObservable = tLoginService.appSetUserInfoWithHeadImage(params, headIcon, "utf-8", token, userId);
+        }
+        else {
+            tModifyInfoObservable = tLoginService.appSetUserInfo(params, token, userId);
+        }
+
+        mRegInfoView.showProgressDialog();
+        tModifyInfoObservable.subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread()).subscribe(new Consumer<USerInfo>() {
+            @Override
+            public void accept(USerInfo uSerInfo) throws Exception {
+                Log.e("qob", "uSerInfo " + uSerInfo);
+                mRegInfoView.showUserInfoOk(uSerInfo);
+            }
+        }, new Consumer<Throwable>() {
+            @Override
+            public void accept(Throwable throwable) throws Exception {
+                Log.e("qob", "throwable " + throwable);
+                mRegInfoView.showUserInfoError();
+            }
+        });
+    }
+
     private boolean writeResponseBodyToDisk(ResponseBody body) {
         try {
             // todo change the file location/name according to your needs
@@ -288,6 +351,7 @@ public class QWRetrofitAty extends Activity {
             return false;
         }
     }
+
 
     private void readme(){
         //https://www.jianshu.com/p/308f3c54abdd
