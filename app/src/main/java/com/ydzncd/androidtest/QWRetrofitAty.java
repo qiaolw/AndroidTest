@@ -17,6 +17,8 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.io.UnsupportedEncodingException;
+import java.net.URLEncoder;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.concurrent.BlockingDeque;
@@ -244,34 +246,39 @@ public class QWRetrofitAty extends Activity {
 
     @OnClick(R.id.bt_file_upload)
     public void onFileUploadClick(){
-        Map<String, String> params = new HashMap<>();
-        params.put("sex", "1");
-        params.put("birthYear", "1990");
-        params.put("weight", "70");
-        params.put("height", "179");
-        params.put("nickName", "你好你好吧");
+        Map<String, RequestBody> params = new HashMap<>();
+
+        RequestBody requestBody = RequestBody.create(MediaType.parse("text/plain"), "你好你好吧");
+//        params.put("sex", "1");
+//        params.put("birthYear", "1990");
+//        params.put("weight", "70");
+//        params.put("height", "179");
+        params.put("nickName", requestBody);
+
+        Map<String, String> params1 = new HashMap<>();
+        params1.put("nickName", "你好你好吧你好1");
 
         Retrofit retrofit = new Retrofit.Builder()
                 .baseUrl("http://18.218.84.54/")
                 .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
                 .build();
 
-        String tOtaFilePathBase = Environment.getExternalStorageDirectory() + "/yuedongTest/temp1530352862434.jpg";
+        String tOtaFilePathBase = Environment.getExternalStorageDirectory() + "/yuedongTest/temp1529891334414.jpg";
         File headImageFile = new File(tOtaFilePathBase);
-
 
         AppUpdateService tLoginService = retrofit.create(AppUpdateService.class);
 
         RequestBody tHeadIconBody = RequestBody.create(MediaType.parse("multipart/form-data"), headImageFile);
         MultipartBody.Part headIcon = MultipartBody.Part.createFormData("headIcon", headImageFile.getName(), tHeadIconBody);
+        params.put("headIcon\";filename=\"" + headImageFile.getName(), tHeadIconBody);
 
-        tLoginService.appSetUserInfoWithHeadImage(params, headIcon, "utf-8", "asadsffsafs", "1000")
+        tLoginService.appSetUserInfoWithHeadImage(params, "db36bf1049a7e37c65ffe9cc8054572b", "321")
                 .subscribeOn(Schedulers.io())
                 .observeOn(Schedulers.io())
                 .subscribe(new Consumer<ResponseBody>() {
             @Override
             public void accept(ResponseBody uSerInfo) throws Exception {
-                Log.e("qob", "uSerInfo " + uSerInfo);
+                Log.e("qob", "appSetUserInfoWithHeadImage " + uSerInfo.string());
             }
         }, new Consumer<Throwable>() {
             @Override
@@ -279,8 +286,78 @@ public class QWRetrofitAty extends Activity {
                 Log.e("qob", "throwable " + throwable);
             }
         });
+
+        /*
+
+        tLoginService.appSetUserInfoWithHeadImage222(params1, headIcon,"db36bf1049a7e37c65ffe9cc8054572b", "321")
+                .subscribeOn(Schedulers.io())
+                .observeOn(Schedulers.io())
+                .subscribe(new Consumer<ResponseBody>() {
+                    @Override
+                    public void accept(ResponseBody uSerInfo) throws Exception {
+                        Log.e("qob", "appSetUserInfoWithHeadImage222 " + uSerInfo.string());
+                    }
+                }, new Consumer<Throwable>() {
+                    @Override
+                    public void accept(Throwable throwable) throws Exception {
+                        Log.e("qob", "throwable " + throwable);
+                    }
+                });
+
+        tLoginService.appSetUserInfo(params1, "db36bf1049a7e37c65ffe9cc8054572b", "321")
+                .subscribeOn(Schedulers.io())
+                .observeOn(Schedulers.io())
+                .subscribe(new Consumer<ResponseBody>() {
+                    @Override
+                    public void accept(ResponseBody uSerInfo) throws Exception {
+                        Log.e("qob", "appSetUserInfo " + uSerInfo.string());
+                    }
+                }, new Consumer<Throwable>() {
+                    @Override
+                    public void accept(Throwable throwable) throws Exception {
+                        Log.e("qob", "throwable " + throwable);
+                    }
+                });
+        tLoginService.appSetUserInfo222("Field测试测试中文", "db36bf1049a7e37c65ffe9cc8054572b", "321")
+                .subscribeOn(Schedulers.io())
+                .observeOn(Schedulers.io())
+                .subscribe(new Consumer<ResponseBody>() {
+                    @Override
+                    public void accept(ResponseBody uSerInfo) throws Exception {
+                        Log.e("qob", "appSetUserInfo222 " + uSerInfo.string());
+                    }
+                }, new Consumer<Throwable>() {
+                    @Override
+                    public void accept(Throwable throwable) throws Exception {
+                        Log.e("qob", "throwable " + throwable);
+                    }
+                });
+*/
+        try {
+            String tEncodeParams = URLEncoder.encode("GET Queryæµè¯æµè¯ä¸­æ", "utf-8");
+            Log.e("qob", "tEncodeParams " + tEncodeParams + " " + new String("GET Queryæµè¯æµè¯ä¸­æ".getBytes("iso-8859-1"), "utf-8"));
+        } catch (UnsupportedEncodingException e) {
+            e.printStackTrace();
+        }
+        tLoginService.appSetUserInfo333("GET Query测试测试中文", "db36bf1049a7e37c65ffe9cc8054572b", "321")
+                .subscribeOn(Schedulers.io())
+                .observeOn(Schedulers.io())
+                .subscribe(new Consumer<ResponseBody>() {
+                    @Override
+                    public void accept(ResponseBody uSerInfo) throws Exception {
+                        Log.e("qob", "appSetUserInfo333 " + uSerInfo.string());
+                    }
+                }, new Consumer<Throwable>() {
+                    @Override
+                    public void accept(Throwable throwable) throws Exception {
+                        Log.e("qob", "throwable " + throwable);
+                    }
+                });
         //https://blog.csdn.net/sinat_30822393/article/details/75529910
+        //https://blog.csdn.net/jdsjlzx/article/details/52301505
         //Retrofit 图文上传
+        //error
+        //1. @FieldMap parameters can only be used with form encoding
     }
 
     private boolean writeResponseBodyToDisk(ResponseBody body) {
