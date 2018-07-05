@@ -19,6 +19,7 @@ import java.io.InputStream;
 import java.io.OutputStream;
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.concurrent.BlockingDeque;
@@ -40,6 +41,7 @@ import io.reactivex.disposables.Disposable;
 import io.reactivex.functions.Consumer;
 import io.reactivex.functions.Function;
 import io.reactivex.schedulers.Schedulers;
+import okhttp3.FormBody;
 import okhttp3.MediaType;
 import okhttp3.MultipartBody;
 import okhttp3.OkHttpClient;
@@ -248,15 +250,22 @@ public class QWRetrofitAty extends Activity {
     public void onFileUploadClick(){
         Map<String, RequestBody> params = new HashMap<>();
 
-        RequestBody requestBody = RequestBody.create(MediaType.parse("text/plain"), "你好你好吧");
-//        params.put("sex", "1");
-//        params.put("birthYear", "1990");
-//        params.put("weight", "70");
-//        params.put("height", "179");
-        params.put("nickName", requestBody);
-
         Map<String, String> params1 = new HashMap<>();
-        params1.put("nickName", "你好你好吧你好1");
+        params1.put("nickName", "String你好你好吧");
+        params1.put("birthYear", "1999");
+
+        RequestBody requestBody = RequestBody.create(MediaType.parse("text/plain"), "RequestBody你好你好吧");
+        params.put("nickName", requestBody);
+        RequestBody requestBody11 = RequestBody.create(MediaType.parse("text/plain"), "2000");
+        params.put("birthYear", requestBody11);
+
+        RequestBody formBody = new FormBody.Builder()
+                .add("nickName", "formBody你好你好吧")
+                .add("sex", "1")
+                .add("birthYear", "1990")
+                .add("weight", "70")
+                .add("height", "179")
+                .build();
 
         Retrofit retrofit = new Retrofit.Builder()
                 .baseUrl("http://18.218.84.54/")
@@ -266,93 +275,56 @@ public class QWRetrofitAty extends Activity {
         String tOtaFilePathBase = Environment.getExternalStorageDirectory() + "/yuedongTest/temp1529891334414.jpg";
         File headImageFile = new File(tOtaFilePathBase);
 
+        //构建body
+        RequestBody reqBody = new MultipartBody.Builder().setType(MultipartBody.FORM)
+                .addFormDataPart("nickName", "MultipartBody你好你好吧")
+                .addFormDataPart("birthYear", "2008")
+                .addFormDataPart("file", headImageFile.getName(), RequestBody.create(MediaType.parse("image/*"), headImageFile))
+                .build();
+
         AppUpdateService tLoginService = retrofit.create(AppUpdateService.class);
 
         RequestBody tHeadIconBody = RequestBody.create(MediaType.parse("multipart/form-data"), headImageFile);
         MultipartBody.Part headIcon = MultipartBody.Part.createFormData("headIcon", headImageFile.getName(), tHeadIconBody);
         params.put("headIcon\";filename=\"" + headImageFile.getName(), tHeadIconBody);
 
-        tLoginService.appSetUserInfoWithHeadImage(params, "db36bf1049a7e37c65ffe9cc8054572b", "321")
-                .subscribeOn(Schedulers.io())
-                .observeOn(Schedulers.io())
-                .subscribe(new Consumer<ResponseBody>() {
-            @Override
-            public void accept(ResponseBody uSerInfo) throws Exception {
-                Log.e("qob", "appSetUserInfoWithHeadImage " + uSerInfo.string());
-            }
-        }, new Consumer<Throwable>() {
-            @Override
-            public void accept(Throwable throwable) throws Exception {
-                Log.e("qob", "throwable " + throwable);
-            }
-        });
+        String tToken = "db36bf1049a7e37c65ffe9cc8054572b";
+        String tUserId = "321";
 
-        /*
-
-        tLoginService.appSetUserInfoWithHeadImage222(params1, headIcon,"db36bf1049a7e37c65ffe9cc8054572b", "321")
-                .subscribeOn(Schedulers.io())
-                .observeOn(Schedulers.io())
-                .subscribe(new Consumer<ResponseBody>() {
-                    @Override
-                    public void accept(ResponseBody uSerInfo) throws Exception {
-                        Log.e("qob", "appSetUserInfoWithHeadImage222 " + uSerInfo.string());
-                    }
-                }, new Consumer<Throwable>() {
-                    @Override
-                    public void accept(Throwable throwable) throws Exception {
-                        Log.e("qob", "throwable " + throwable);
-                    }
-                });
-
-        tLoginService.appSetUserInfo(params1, "db36bf1049a7e37c65ffe9cc8054572b", "321")
-                .subscribeOn(Schedulers.io())
-                .observeOn(Schedulers.io())
-                .subscribe(new Consumer<ResponseBody>() {
-                    @Override
-                    public void accept(ResponseBody uSerInfo) throws Exception {
-                        Log.e("qob", "appSetUserInfo " + uSerInfo.string());
-                    }
-                }, new Consumer<Throwable>() {
-                    @Override
-                    public void accept(Throwable throwable) throws Exception {
-                        Log.e("qob", "throwable " + throwable);
-                    }
-                });
-        tLoginService.appSetUserInfo222("Field测试测试中文", "db36bf1049a7e37c65ffe9cc8054572b", "321")
-                .subscribeOn(Schedulers.io())
-                .observeOn(Schedulers.io())
-                .subscribe(new Consumer<ResponseBody>() {
-                    @Override
-                    public void accept(ResponseBody uSerInfo) throws Exception {
-                        Log.e("qob", "appSetUserInfo222 " + uSerInfo.string());
-                    }
-                }, new Consumer<Throwable>() {
-                    @Override
-                    public void accept(Throwable throwable) throws Exception {
-                        Log.e("qob", "throwable " + throwable);
-                    }
-                });
-*/
+        Observable<ResponseBody> appsetUser1 = tLoginService.appSetUserInfoWithHeadImage(params, tToken, tUserId);
+        Observable<ResponseBody> appsetUser2 = tLoginService.appSetUserInfoWithHeadImage111(formBody, headIcon,tToken, tUserId);
+        Observable<ResponseBody> appsetUser22 = tLoginService.appSetUserInfoWithHeadImage1111(reqBody,tToken, tUserId);
+        Observable<ResponseBody> appsetUser3 = tLoginService.appSetUserInfoWithHeadImage222(params1, headIcon,tToken, tUserId);
+        Observable<ResponseBody> appsetUser4 = tLoginService.appSetUserInfo(params1, tToken, "321");
+        Observable<ResponseBody> appsetUser5 = tLoginService.appSetUserInfo222("Field测试测试中文", tToken, tUserId);
         try {
             String tEncodeParams = URLEncoder.encode("GET Queryæµè¯æµè¯ä¸­æ", "utf-8");
             Log.e("qob", "tEncodeParams " + tEncodeParams + " " + new String("GET Queryæµè¯æµè¯ä¸­æ".getBytes("iso-8859-1"), "utf-8"));
         } catch (UnsupportedEncodingException e) {
             e.printStackTrace();
         }
-        tLoginService.appSetUserInfo333("GET Query测试测试中文", "db36bf1049a7e37c65ffe9cc8054572b", "321")
-                .subscribeOn(Schedulers.io())
-                .observeOn(Schedulers.io())
-                .subscribe(new Consumer<ResponseBody>() {
-                    @Override
-                    public void accept(ResponseBody uSerInfo) throws Exception {
-                        Log.e("qob", "appSetUserInfo333 " + uSerInfo.string());
-                    }
-                }, new Consumer<Throwable>() {
-                    @Override
-                    public void accept(Throwable throwable) throws Exception {
-                        Log.e("qob", "throwable " + throwable);
-                    }
-                });
+        Observable<ResponseBody> appsetUser6 = tLoginService.appSetUserInfo333("GET Query测试测试中文", "db36bf1049a7e37c65ffe9cc8054572b", "321");
+
+        ArrayList tAppSettingReqs = new ArrayList();
+        tAppSettingReqs.add(appsetUser1);
+        tAppSettingReqs.add(appsetUser2);
+        tAppSettingReqs.add(appsetUser22);
+        tAppSettingReqs.add(appsetUser3);
+        tAppSettingReqs.add(appsetUser4);
+        tAppSettingReqs.add(appsetUser5);
+        tAppSettingReqs.add(appsetUser6);
+        Observable.concat(tAppSettingReqs).subscribeOn(Schedulers.io()).observeOn(Schedulers.io()).subscribe(new Consumer<ResponseBody>() {
+            @Override
+            public void accept(ResponseBody o) throws Exception {
+                Log.e("qob", "appSetUserInfo" + o.string());
+            }
+        }, new Consumer<Throwable>() {
+            @Override
+            public void accept(Throwable throwable) throws Exception {
+                Log.e("qob", "throwable" + throwable);
+            }
+        });
+
         //https://blog.csdn.net/sinat_30822393/article/details/75529910
         //https://blog.csdn.net/jdsjlzx/article/details/52301505
         //Retrofit 图文上传

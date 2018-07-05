@@ -7,6 +7,7 @@ import okhttp3.MultipartBody;
 import okhttp3.RequestBody;
 import okhttp3.ResponseBody;
 import retrofit2.Call;
+import retrofit2.http.Body;
 import retrofit2.http.Field;
 import retrofit2.http.FieldMap;
 import retrofit2.http.FormUrlEncoded;
@@ -41,6 +42,22 @@ public interface  AppUpdateService {
     Observable<ResponseBody> appSetUserInfoWithHeadImage(@PartMap Map<String, RequestBody> param,
                                                      @Header("token") String token,
                                                      @Header("userId") String userId);
+
+    // Error @Part annotation must supply a name or use MultipartBody.Part parameter type.
+    // TODO 怎么把多个参数一起放在 RequestBody里使用, FormBody里面参数已有key; Body怎么不用传key.
+    @Multipart
+    @POST("YueDongService/user/setUserInfo.do?")
+    Observable<ResponseBody> appSetUserInfoWithHeadImage111(@Part("xxxxx") RequestBody param,
+                                                            @Part MultipartBody.Part headIcon,
+                                                         @Header("token") String token,
+                                                         @Header("userId") String userId);
+
+    //ERROR  @Body parameters cannot be used with form or multi-part encoding.
+    //@Multipart
+    @POST("YueDongService/user/setUserInfo.do?")
+    Observable<ResponseBody> appSetUserInfoWithHeadImage1111(@Body RequestBody param,
+                                                            @Header("token") String token,
+                                                            @Header("userId") String userId);
 
     //图文上传，中文乱码
     @Multipart
