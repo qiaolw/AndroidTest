@@ -272,13 +272,14 @@ public class QWRetrofitAty extends Activity {
                 .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
                 .build();
 
-        String tOtaFilePathBase = Environment.getExternalStorageDirectory() + "/yuedongTest/temp1529891334414.jpg";
+        //temp1529891334414.jpg 公司手机
+        //
+        String tOtaFilePathBase = Environment.getExternalStorageDirectory() + "/yuedongTest/temp1530352862434.jpg";
         File headImageFile = new File(tOtaFilePathBase);
 
         //构建body
         RequestBody reqBody = new MultipartBody.Builder().setType(MultipartBody.FORM)
-                .addFormDataPart("nickName", "MultipartBody你好你好吧")
-                .addFormDataPart("birthYear", "2008")
+                .addPart(formBody)
                 .addFormDataPart("file", headImageFile.getName(), RequestBody.create(MediaType.parse("image/*"), headImageFile))
                 .build();
 
