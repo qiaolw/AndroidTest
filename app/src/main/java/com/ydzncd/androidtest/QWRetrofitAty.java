@@ -19,6 +19,7 @@ import java.io.InputStream;
 import java.io.OutputStream;
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
+import java.nio.charset.Charset;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
@@ -42,6 +43,7 @@ import io.reactivex.functions.Consumer;
 import io.reactivex.functions.Function;
 import io.reactivex.schedulers.Schedulers;
 import okhttp3.FormBody;
+import okhttp3.Headers;
 import okhttp3.MediaType;
 import okhttp3.MultipartBody;
 import okhttp3.OkHttpClient;
@@ -254,12 +256,12 @@ public class QWRetrofitAty extends Activity {
         params1.put("nickName", "String你好你好吧");
         params1.put("birthYear", "1999");
 
-        RequestBody requestBody = RequestBody.create(MediaType.parse("text/plain"), "RequestBody你好你好吧");
+        RequestBody requestBody = RequestBody.create(MediaType.parse("text/plain"), " Map<String, RequestBody>你好你好吧");
         params.put("nickName", requestBody);
         RequestBody requestBody11 = RequestBody.create(MediaType.parse("text/plain"), "2000");
         params.put("birthYear", requestBody11);
 
-        RequestBody formBody = new FormBody.Builder()
+        RequestBody formBody = new FormBody.Builder(Charset.defaultCharset())
                 .add("nickName", "formBody你好你好吧")
                 .add("sex", "1")
                 .add("birthYear", "1990")
@@ -273,12 +275,12 @@ public class QWRetrofitAty extends Activity {
                 .build();
 
         //temp1529891334414.jpg 公司手机
-        //
-        String tOtaFilePathBase = Environment.getExternalStorageDirectory() + "/yuedongTest/temp1530352862434.jpg";
+        //temp1530352862434.jpg
+        String tOtaFilePathBase = Environment.getExternalStorageDirectory() + "/yuedongTest/temp1529891334414.jpg";
         File headImageFile = new File(tOtaFilePathBase);
 
         //构建body
-        RequestBody reqBody = new MultipartBody.Builder().setType(MultipartBody.FORM)
+        RequestBody reqBody = new MultipartBody.Builder().setType(MultipartBody.MIXED)
                 .addPart(formBody)
                 .addFormDataPart("file", headImageFile.getName(), RequestBody.create(MediaType.parse("image/*"), headImageFile))
                 .build();
@@ -289,7 +291,7 @@ public class QWRetrofitAty extends Activity {
         MultipartBody.Part headIcon = MultipartBody.Part.createFormData("headIcon", headImageFile.getName(), tHeadIconBody);
         params.put("headIcon\";filename=\"" + headImageFile.getName(), tHeadIconBody);
 
-        String tToken = "db36bf1049a7e37c65ffe9cc8054572b";
+        String tToken = "b0126153d58b4cbfe843f69cdfdf02bb";
         String tUserId = "321";
 
         Observable<ResponseBody> appsetUser1 = tLoginService.appSetUserInfoWithHeadImage(params, tToken, tUserId);
@@ -298,13 +300,13 @@ public class QWRetrofitAty extends Activity {
         Observable<ResponseBody> appsetUser3 = tLoginService.appSetUserInfoWithHeadImage222(params1, headIcon,tToken, tUserId);
         Observable<ResponseBody> appsetUser4 = tLoginService.appSetUserInfo(params1, tToken, "321");
         Observable<ResponseBody> appsetUser5 = tLoginService.appSetUserInfo222("Field测试测试中文", tToken, tUserId);
+        Observable<ResponseBody> appsetUser6 = tLoginService.appSetUserInfo333("GET Query测试测试中文", tToken, tUserId);
         try {
             String tEncodeParams = URLEncoder.encode("GET Queryæµè¯æµè¯ä¸­æ", "utf-8");
             Log.e("qob", "tEncodeParams " + tEncodeParams + " " + new String("GET Queryæµè¯æµè¯ä¸­æ".getBytes("iso-8859-1"), "utf-8"));
         } catch (UnsupportedEncodingException e) {
             e.printStackTrace();
         }
-        Observable<ResponseBody> appsetUser6 = tLoginService.appSetUserInfo333("GET Query测试测试中文", "db36bf1049a7e37c65ffe9cc8054572b", "321");
 
         ArrayList tAppSettingReqs = new ArrayList();
         tAppSettingReqs.add(appsetUser1);
