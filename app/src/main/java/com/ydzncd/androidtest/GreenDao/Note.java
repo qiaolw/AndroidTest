@@ -11,7 +11,7 @@ import org.greenrobot.greendao.annotation.Generated;
 
 @Entity
 public class Note {
-    @Id
+    @Id(autoincrement = true)
     private Long id;
 
     @NotNull
@@ -43,5 +43,10 @@ public class Note {
     }
     public void setComment(String comment) {
         this.comment = comment;
+    }
+
+    @Override
+    public String toString() {
+        return "id " + id + " text " + text + " comment " + comment;
     }
 }

@@ -34,5 +34,12 @@
         android:id="@+id/sql_greendao_update"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content" />
+    <Button
+        app:layout_constraintBaseline_toBaselineOf="@+id/sql_greendao_insert"
+        app:layout_constraintLeft_toRightOf="@+id/sql_greendao_update"
+        android:text="Queries"
+        android:id="@+id/sql_greendao_Queries"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
 
 </android.support.constraint.ConstraintLayout>
