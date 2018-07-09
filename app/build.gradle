@@ -1,3 +1,4 @@
+
 apply plugin: 'com.android.application'
 apply plugin: 'org.greenrobot.greendao'
 
@@ -51,6 +52,29 @@ greendao {
 
 task hello << {
     println 'Hello world!'
+}
+
+task configClosure << {
+    person {
+        personName = "zhang san"
+        personAge = 20
+        dumpPerson()
+    }
+}
+class Person{
+    String personName
+    int personAge
+
+    def dumpPerson(){
+        println "name is ${personName}, age is ${personAge}"
+    }
+}
+
+def person(Closure<Person> closure){
+    Person p = new Person();
+    closure.delegate = p;
+    closure.setResolveStrategy(Closure.DELEGATE_FIRST)
+    closure(p)
 }
 
 dependencies {
