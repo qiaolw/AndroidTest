@@ -50,8 +50,10 @@
         <activity android:name=".GWRxBleAty" />
         <activity
             android:name=".GWGoogleFitAty"
-            android:theme="@style/Theme.AppCompat.Light.NoActionBar"></activity>
-        <activity android:name=".QWSqlAty"></activity>
+            android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
+        <activity android:name=".QWSqlAty" />
+        <activity android:name=".GWAnnotationAty" />
+        <activity android:name=".GWThreadAty"></activity>
     </application>
 
 </manifest>

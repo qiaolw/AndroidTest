@@ -21,6 +21,7 @@ import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
 import java.nio.charset.Charset;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.concurrent.BlockingDeque;
@@ -309,13 +310,8 @@ public class QWRetrofitAty extends Activity {
         }
 
         ArrayList tAppSettingReqs = new ArrayList();
-        tAppSettingReqs.add(appsetUser1);
-        tAppSettingReqs.add(appsetUser2);
-        tAppSettingReqs.add(appsetUser22);
-        tAppSettingReqs.add(appsetUser3);
-        tAppSettingReqs.add(appsetUser4);
-        tAppSettingReqs.add(appsetUser5);
-        tAppSettingReqs.add(appsetUser6);
+        Collections.addAll(tAppSettingReqs, appsetUser1, appsetUser2, appsetUser22, appsetUser3, appsetUser4, appsetUser5, appsetUser6);
+
         Observable.concat(tAppSettingReqs).subscribeOn(Schedulers.io()).observeOn(Schedulers.io()).subscribe(new Consumer<ResponseBody>() {
             @Override
             public void accept(ResponseBody o) throws Exception {

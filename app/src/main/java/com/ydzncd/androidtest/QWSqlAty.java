@@ -25,6 +25,7 @@ public class QWSqlAty extends Activity {
 
     //GreenDao官方文档 http://greenrobot.org/greendao/documentation/
     //查看sqlite数据库  AS 右下角  Device File Explorer
+    // Android字节码插桩 https://juejin.im/post/5aa0e7eff265da2395308f48
 
     @OnClick(R.id.sql_greendao_insert)
     public void onGreenDaoInsert(){

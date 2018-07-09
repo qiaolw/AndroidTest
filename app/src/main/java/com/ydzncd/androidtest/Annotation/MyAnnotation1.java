@@ -1,0 +1,13 @@
+package com.ydzncd.androidtest.Annotation;
+
+import java.lang.annotation.ElementType;
+import java.lang.annotation.Retention;
+import java.lang.annotation.RetentionPolicy;
+import java.lang.annotation.Target;
+
+@Target(ElementType.METHOD)
+@Retention(RetentionPolicy.RUNTIME)
+public @interface MyAnnotation1 {
+    int tag() default -1;
+    String desc() default "";
+}

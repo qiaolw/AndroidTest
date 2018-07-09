@@ -9,7 +9,8 @@
         <item>rxandroidble体验</item>
         <item>数据库</item>
         <item>GoogleFit</item>
-        <item>dagger2</item>
+        <item>Annotation</item>
+        <item>Thread</item>
         <item>rxjava</item>
         <item>Retrofit2</item>
         <item>手机定位</item>
@@ -21,7 +22,8 @@
         <item>GWRxBleAty</item>
         <item>QWSqlAty</item>
         <item>GWGoogleFitAty</item>
-        <item>GWPermissionAty</item>
+        <item>GWAnnotationAty</item>
+        <item>GWThreadAty</item>
         <item>QWRxjavaAty</item>
         <item>QWRetrofitAty</item>
         <item>QWLocationAty</item>

@@ -20,15 +20,43 @@ android {
             debuggable true
         }
     }
+    //配置自定义打包名称
+    applicationVariants.all { variant ->
+        if (variant.buildType.name.equals('release')) {
+            variant.getPackageApplication().outputDirectory = new File("//192.168.31.65/share/app_k6/android");
+        }
+        else {
+            variant.getPackageApplication().outputDirectory = new File("//192.168.31.65/share/app_k6/android");
+        }
+        println 'variant name: ' + variant.name + ' description: ' + variant.description;
+        variant.outputs.all { output ->
+            def fileName
+            def date = new Date()
+            def formattedDate = date.format('yyyyMMdd')
+            if (variant.buildType.name.equals('release')) {
+                fileName = "${variant.mergedFlavor.versionName}_release_${formattedDate}.apk"
+            } else if (variant.buildType.name.equals('debug')) {
+                fileName = "YueFit_${variant.mergedFlavor.versionName}_debug_${formattedDate}.apk"
+            }
+ //           outputFileName = fileName;
+            output.outputFileName = fileName;
+ //           output.outputDir = new File("E:\\360Downloads")
+        }
+    }
 }
 
 greendao {
     schemaVersion 1000
 }
 
+task hello << {
+    println 'Hello world!'
+}
+
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
     implementation 'com.android.support.constraint:constraint-layout:1.1.1'
+    //noinspection GradleCompatible
     implementation 'com.android.support:appcompat-v7:27.1.1'
     testImplementation 'junit:junit:4.12'
     //noinspection GradleCompatible
