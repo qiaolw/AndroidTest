@@ -1,11 +1,13 @@
 package com.ydzncd.androidtest;
 
 import android.app.Activity;
+import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.util.Log;
 
 import com.ydzncd.androidtest.GreenDao.Note;
 import com.ydzncd.androidtest.GreenDao.NoteDao;
+import com.ydzncd.androidtest.SQLite.QWSql;
 
 import java.sql.Date;
 import java.util.List;
@@ -14,6 +16,7 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 
 public class QWSqlAty extends Activity {
+    private QWSql mSqLite;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -21,6 +24,9 @@ public class QWSqlAty extends Activity {
         setContentView(R.layout.activity_qwsql_aty);
 
         ButterKnife.bind(this);
+        mSqLite = new QWSql(this);
+        SQLiteDatabase tReadDb = mSqLite.getReadableDatabase();
+        SQLiteDatabase tWriteDb = mSqLite.getWritableDatabase();
     }
 
     //GreenDao官方文档 http://greenrobot.org/greendao/documentation/

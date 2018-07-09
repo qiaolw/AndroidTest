@@ -26,7 +26,7 @@ android {
             variant.getPackageApplication().outputDirectory = new File("//192.168.31.65/share/app_k6/android");
         }
         else {
-            variant.getPackageApplication().outputDirectory = new File("//192.168.31.65/share/app_k6/android");
+   //         variant.getPackageApplication().outputDirectory = new File("//192.168.31.65/share/app_k6/android");
         }
         println 'variant name: ' + variant.name + ' description: ' + variant.description;
         variant.outputs.all { output ->
@@ -34,9 +34,9 @@ android {
             def date = new Date()
             def formattedDate = date.format('yyyyMMdd')
             if (variant.buildType.name.equals('release')) {
-                fileName = "${variant.mergedFlavor.versionName}_release_${formattedDate}.apk"
-            } else if (variant.buildType.name.equals('debug')) {
                 fileName = "YueFit_${variant.mergedFlavor.versionName}_debug_${formattedDate}.apk"
+            } else if (variant.buildType.name.equals('debug')) {
+                fileName = "${variant.mergedFlavor.versionName}_release_${formattedDate}.apk"
             }
  //           outputFileName = fileName;
             output.outputFileName = fileName;
