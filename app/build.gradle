@@ -50,16 +50,25 @@ greendao {
     schemaVersion 1000
 }
 
-task hello << {
-    println 'Hello world!'
-}
-
 task configClosure << {
     person {
         personName = "zhang san"
-        personAge = 20
+        personAge = 30
         dumpPerson()
     }
+
+    def fun1 = {
+        p1 ->
+            def s = "我是一个闭包," + p1;
+            return s;
+    }
+    println(fun1.call("我是一个参数"));
+    fun22 4, "test", {
+        println"i am in closure 4 test"
+    }
+    fun22(5, "test2", {
+        println("i am in closure 5 test2")
+    })
 }
 class Person{
     String personName
@@ -67,15 +76,45 @@ class Person{
 
     def dumpPerson(){
         println "name is ${personName}, age is ${personAge}"
+//        assert personAge > 30
     }
 }
-
 def person(Closure<Person> closure){
     Person p = new Person();
     closure.delegate = p;
     closure.setResolveStrategy(Closure.DELEGATE_FIRST)
-    closure(p)
+    closure()
 }
+
+def fun22(int a1,String b1, Closure closure){
+    //dosomething
+    closure() //调用闭包
+}
+
+task helloDelegate << {
+    new Delegate().test {
+        println "thisObject:${thisObject.getClass()}"
+        println "owner: ${owner.getClass()}"
+        println "delegate:${delegate.getClass()}"
+        method1()
+        it.method1()
+    }
+}
+
+def method1(){
+    println "Context this:${this.getClass()} in root"
+    println "method1 in root"
+}
+class Delegate{
+    def method1(){
+        println "Delegate this:${this.getClass()} in Delegate"
+        println "method1 in Delegate"
+    }
+    def test(Closure<Delegate> closure){
+        closure(this)
+    }
+}
+
 
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
