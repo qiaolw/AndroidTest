@@ -4,6 +4,9 @@ import android.app.Activity;
 import android.os.Bundle;
 
 import com.ydzncd.androidtest.Annotation.MyEntity1;
+/**
+ *自定义gradle插件，处理Annotaion https://blog.csdn.net/a568478312/article/details/8022508
+ */
 
 public class GWAnnotationAty extends Activity {
 
