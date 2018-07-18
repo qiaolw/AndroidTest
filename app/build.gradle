@@ -91,31 +91,6 @@ def fun22(int a1,String b1, Closure closure){
     closure() //调用闭包
 }
 
-task helloDelegate << {
-    new Delegate().test {
-        println "thisObject:${thisObject.getClass()}"
-        println "owner: ${owner.getClass()}"
-        println "delegate:${delegate.getClass()}"
-        method1()
-        it.method1()
-    }
-}
-
-def method1(){
-    println "Context this:${this.getClass()} in root"
-    println "method1 in root"
-}
-class Delegate{
-    def method1(){
-        println "Delegate this:${this.getClass()} in Delegate"
-        println "method1 in Delegate"
-    }
-    def test(Closure<Delegate> closure){
-        closure(this)
-    }
-}
-
-
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
     implementation 'com.android.support.constraint:constraint-layout:1.1.1'
