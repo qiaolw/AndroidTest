@@ -7,4 +7,5 @@
     <color name="green">#00ca9d</color>
     <color name="red">#222222</color>
     <color name="defaultDark">#EFEFEF</color>
+    <color name="clearColor">#00FFFFFF</color>
 </resources>

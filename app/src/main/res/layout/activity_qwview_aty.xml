@@ -81,9 +81,20 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content" />
     <com.ydzncd.androidtest.MyView.QWDrawView
+        android:background="@color/colorPrimary"
         android:id="@+id/view_drawtest"
         app:layout_constraintTop_toBottomOf="@+id/view_progressbarStyleLarge"
         android:layout_width="match_parent"
-        android:layout_height="200dp" />
+        android:layout_height="100dp" />
+    <com.ydzncd.androidtest.MyView.QWDrawClipView
+        android:id="@+id/view_drawcliptest"
+        app:layout_constraintTop_toBottomOf="@+id/view_drawtest"
+        android:layout_width="match_parent"
+        android:layout_height="100dp" />
+    <com.ydzncd.androidtest.MyView.LinearGradientView
+        android:id="@+id/view_drawLinearGradientTest"
+        app:layout_constraintTop_toBottomOf="@+id/view_drawcliptest"
+        android:layout_width="match_parent"
+        android:layout_height="100dp" />
 
 </android.support.constraint.ConstraintLayout>

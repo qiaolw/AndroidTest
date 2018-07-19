@@ -2,9 +2,13 @@ package com.ydzncd.androidtest;
 
 import android.app.Activity;
 import android.app.ProgressDialog;
+import android.os.Build;
 import android.os.Bundle;
 import android.view.Window;
 import android.widget.ProgressBar;
+
+import com.ydzncd.androidtest.MyView.ClipOutlineProvider;
+import com.ydzncd.androidtest.MyView.QWDrawView;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -12,6 +16,8 @@ import butterknife.OnClick;
 
 public class QWViewAty extends Activity {
     @BindView(R.id.view_progressbar) ProgressBar mProgressBar;
+    @BindView(R.id.view_drawtest)
+    QWDrawView mCustomDrawView;
     private int mProgressIndex;
     private ProgressDialog mProgressDialog;
     @Override
@@ -27,6 +33,11 @@ public class QWViewAty extends Activity {
 
  //       requestWindowFeature(Window.FEATURE_PROGRESS);   //设置窗口进度条特性风格
         setProgressBarIndeterminateVisibility(true);     //设置进度条可见性
+
+        ClipOutlineProvider tColP = new ClipOutlineProvider();
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            mCustomDrawView.setOutlineProvider(tColP);
+        }
     }
 
     @OnClick(R.id.view_changeProgress)
