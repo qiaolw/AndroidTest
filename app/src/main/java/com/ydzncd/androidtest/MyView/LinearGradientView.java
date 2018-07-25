@@ -32,8 +32,6 @@ public class LinearGradientView extends View {
     protected void onDraw(Canvas canvas) {
         super.onDraw(canvas);
 
-        Log.e("qob", "width: " + canvas.getWidth() + " height " + canvas.getHeight());
-
         //设置渲染器
         paint.setAntiAlias(true);
         paint.setShader(linearGradient);
