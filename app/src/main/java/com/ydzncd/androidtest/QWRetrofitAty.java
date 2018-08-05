@@ -341,6 +341,34 @@ public class QWRetrofitAty extends Activity {
         //1. @FieldMap parameters can only be used with form encoding
     }
 
+    @OnClick(R.id.bt_starwrist_test)
+    public void onStarWristTestClick(){
+        Retrofit retrofit = new Retrofit.Builder()
+                .baseUrl("http://18.218.84.54/")
+                .build();
+        HeWeatherService appUpdateService = retrofit.create(HeWeatherService.class);
+        String tUserName = "qiaolw0709@foxmail.com";
+        String tPwd = "123456";
+        String tMd5 = "99999";
+        Call<ResponseBody> call = appUpdateService.testStartWristApi(tUserName, tPwd, tMd5);
+        call.enqueue(new Callback<ResponseBody>() {
+            @Override
+            public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
+                try {
+                    Log.e("qob", "onResponse " + response.body().string());
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+
+            @Override
+            public void onFailure(Call<ResponseBody> call, Throwable t) {
+                Log.e("qob", "onFailure " + t);
+
+            }
+        });
+    }
+
     private boolean writeResponseBodyToDisk(ResponseBody body) {
         try {
             // todo change the file location/name according to your needs
