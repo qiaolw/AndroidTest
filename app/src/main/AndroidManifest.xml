@@ -53,7 +53,8 @@
             android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
         <activity android:name=".QWSqlAty" />
         <activity android:name=".GWAnnotationAty" />
-        <activity android:name=".GWThreadAty"></activity>
+        <activity android:name=".GWThreadAty" />
+        <activity android:name=".Drawable.QWDrawableAty"></activity>
     </application>
 
 </manifest>

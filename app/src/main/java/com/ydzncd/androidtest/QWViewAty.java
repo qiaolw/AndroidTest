@@ -2,11 +2,13 @@ package com.ydzncd.androidtest;
 
 import android.app.Activity;
 import android.app.ProgressDialog;
+import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
 import android.view.Window;
 import android.widget.ProgressBar;
 
+import com.ydzncd.androidtest.Drawable.QWDrawableAty;
 import com.ydzncd.androidtest.MyView.ClipOutlineProvider;
 import com.ydzncd.androidtest.MyView.QWDrawView;
 
@@ -72,5 +74,9 @@ public class QWViewAty extends Activity {
             }
         }
         return false;//已经取消过了，不需要取消
+    }
+    @OnClick(R.id.bt_drawable_test)
+    public void onDrawableTestClick(){
+        startActivity(new Intent(this, QWDrawableAty.class));
     }
 }

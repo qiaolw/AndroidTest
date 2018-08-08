@@ -1,4 +1,3 @@
-
 apply plugin: 'com.android.application'
 apply plugin: 'org.greenrobot.greendao'
 
@@ -25,9 +24,8 @@ android {
     applicationVariants.all { variant ->
         if (variant.buildType.name.equals('release')) {
             variant.getPackageApplication().outputDirectory = new File("//192.168.31.65/share/app_k6/android");
-        }
-        else {
-   //         variant.getPackageApplication().outputDirectory = new File("//192.168.31.65/share/app_k6/android");
+        } else {
+            //         variant.getPackageApplication().outputDirectory = new File("//192.168.31.65/share/app_k6/android");
         }
         println 'variant name: ' + variant.name + ' description: ' + variant.description;
         variant.outputs.all { output ->
@@ -39,9 +37,9 @@ android {
             } else if (variant.buildType.name.equals('debug')) {
                 fileName = "${variant.mergedFlavor.versionName}_release_${formattedDate}.apk"
             }
- //           outputFileName = fileName;
+            //           outputFileName = fileName;
             output.outputFileName = fileName;
- //           output.outputDir = new File("E:\\360Downloads")
+            //           output.outputDir = new File("E:\\360Downloads")
         }
     }
 }
@@ -64,29 +62,31 @@ task configClosure << {
     }
     println(fun1.call("我是一个参数"));
     fun22 4, "test", {
-        println"i am in closure 4 test"
+        println "i am in closure 4 test"
     }
     fun22(5, "test2", {
         println("i am in closure 5 test2")
     })
 }
-class Person{
+
+class Person {
     String personName
     int personAge
 
-    def dumpPerson(){
+    def dumpPerson() {
         println "name is ${personName}, age is ${personAge}"
 //        assert personAge > 30
     }
 }
-def person(Closure<Person> closure){
+
+def person(Closure<Person> closure) {
     Person p = new Person();
     closure.delegate = p;
     closure.setResolveStrategy(Closure.DELEGATE_FIRST)
     closure()
 }
 
-def fun22(int a1,String b1, Closure closure){
+def fun22(int a1, String b1, Closure closure) {
     //dosomething
     closure() //调用闭包
 }
