@@ -27,4 +27,6 @@ public class MainActivity extends Activity {
         mMainAdapter = new QWMainAdapter(this);
         rvMain.setAdapter(mMainAdapter);
     }
+
+    //第三方平台  Strava  googlefit
 }

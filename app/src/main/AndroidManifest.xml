@@ -46,15 +46,15 @@
         <activity
             android:name=".QWViewAty"
             android:screenOrientation="portrait" />
-        <activity android:name=".QWTouchAty" />
-        <activity android:name=".GWRxBleAty" />
+        <activity android:name=".QWTouchAty" android:screenOrientation="portrait"/>
+        <activity android:name=".GWRxBleAty" android:screenOrientation="portrait"/>
         <activity
             android:name=".GWGoogleFitAty"
-            android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
-        <activity android:name=".QWSqlAty" />
-        <activity android:name=".GWAnnotationAty" />
-        <activity android:name=".GWThreadAty" />
-        <activity android:name=".Drawable.QWDrawableAty"></activity>
+            android:theme="@style/Theme.AppCompat.Light.NoActionBar" android:screenOrientation="portrait"/>
+        <activity android:name=".QWSqlAty" android:screenOrientation="portrait"/>
+        <activity android:name=".GWAnnotationAty" android:screenOrientation="portrait"/>
+        <activity android:name=".GWThreadAty" android:screenOrientation="portrait"/>
+        <activity android:name=".Drawable.QWDrawableAty" android:screenOrientation="portrait"></activity>
     </application>
 
 </manifest>

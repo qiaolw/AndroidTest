@@ -54,7 +54,7 @@ public class QWDrawClipView extends View {
         tLinePath.moveTo(50, 50);
         tLinePath.cubicTo(50, 50,150, 120, 400, 150);
  //       tLinePath.lineTo(150, 120);
-       tLinePath.setFillType(Path.FillType.INVERSE_WINDING);
+        tLinePath.setFillType(Path.FillType.INVERSE_WINDING);
         canvas.drawPath(tLinePath, mPaint);
 
 
