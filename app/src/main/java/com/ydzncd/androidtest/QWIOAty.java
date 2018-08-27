@@ -9,6 +9,7 @@ import com.ydzncd.androidtest.IO.TcpConnection;
 
 import java.io.UnsupportedEncodingException;
 import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.Map;
 
 import butterknife.ButterKnife;
@@ -40,25 +41,29 @@ public class QWIOAty extends Activity implements TcpConnection.TCPCallback {
         Log.e("qob", "onConnected");
         Gson gson = new Gson();
 
-        Map map = new HashMap();
+        Map map = new LinkedHashMap();
         map.put("cmd", "02");
         map.put("sid", "xxx");
         Map tData = new HashMap();
         tData.put("UserName", "lrs");
         tData.put("Pwd", "123456");
         map.put("data", tData);
-        String tGsonStr = gson.toJson(map) + "\r\n";
+        String tGsonStr = gson.toJson(map);
         Log.e("qob", "tGsonStr " + tGsonStr);
+
+
         try {
+ //           Thread.sleep(1000);
             mClient.write(tGsonStr.getBytes("utf-8"));
-        } catch (UnsupportedEncodingException e) {
+        } catch (Exception e) {
             e.printStackTrace();
         }
     }
 
     @Override
     public void onReceiveData(TcpConnection tcpConn, byte[] data) {
-        Log.e("qob", "onReceiveData");
+        String tStr = new String(data);
+        Log.e("qob", "onReceiveData: " + tStr);
     }
 
     @Override

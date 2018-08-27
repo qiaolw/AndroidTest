@@ -99,7 +99,7 @@ public class TcpConnection {
                     return;
                 }
                 isConnecting = true;
-                mSocket = new Socket("www.honggps.com", 8882);
+                mSocket = new Socket("106.14.11.194", 8882);
                 //           mSocket.connect();
                 Log.e("qob", "连接完成");
                 isConnecting = false;
@@ -152,6 +152,7 @@ public class TcpConnection {
         public boolean write(byte[] bytes) {
             try {
                 mOutStream.write(bytes);
+                mOutStream.flush();
                 mCallback.onWriteSuccess(TcpConnection.this);
                 Log.d("qob", "onWriteSuccess: " + Arrays.toString(bytes));
             } catch (IOException e) {
