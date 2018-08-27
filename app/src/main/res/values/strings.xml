@@ -16,6 +16,7 @@
         <item>手机定位</item>
         <item>View</item>
         <item>事件分发机制</item>
+        <item>IO</item>
     </array>
     <array name="mainActivitys">
         <item>GWPermissionAty</item>
@@ -29,5 +30,6 @@
         <item>QWLocationAty</item>
         <item>QWViewAty</item>
         <item>QWTouchAty</item>
+        <item>QWIOAty</item>
     </array>
 </resources>
